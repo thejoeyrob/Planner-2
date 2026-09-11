@@ -2,717 +2,174 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#0b0f15">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,interactive-widget=resizes-content">
+<meta name="theme-color" content="#090d13">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<link rel="manifest" href="manifest.json">
+<link rel="manifest" href="manifest.webmanifest">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
-<title>FKBC Lesson Planner Pro</title>
+<title>FKBC Coach Console — Edition 9</title>
 <style>
-:root{--bg:#f2f4f7;--card:#ffffff;--ink:#11161d;--muted:#6c7581;--line:#d9e0ea;--accent:#d7142e;--accent2:#94101f;--dark:#0b0f15;--dark2:#141b25;--dark3:#1b2532;--shadow:0 18px 48px rgba(10,17,28,.11);--radius:24px;--safeTop:env(safe-area-inset-top,0px);--safeBottom:env(safe-area-inset-bottom,0px)}
-*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-html,body{margin:0;height:100%;font-family:Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;background:linear-gradient(180deg,#f3f6fa 0%,#eef2f7 100%);color:var(--ink)}
-body.dark{background:linear-gradient(180deg,#0a0d12 0%,#121822 100%);color:#eef4fb}
-a,button,input,select,textarea{font:inherit}
-button{cursor:pointer}
-img{display:block;max-width:100%}
-.app{max-width:1240px;margin:0 auto;padding:calc(var(--safeTop) + 12px) 14px calc(var(--safeBottom) + 24px)}
-.hidden{display:none!important}
-.topbar{position:relative;overflow:hidden;border-radius:32px;background:linear-gradient(145deg,#0b0f15 0%,#161d27 58%,#10151d 100%);box-shadow:0 28px 82px rgba(7,12,20,.35);border:1px solid rgba(255,255,255,.08);padding:18px 18px 16px;margin-bottom:18px}
-.topbar::before{content:"";position:absolute;inset:0;background:url('paper-texture.png') center/cover no-repeat;mix-blend-mode:screen;opacity:.22;pointer-events:none}
-.topbar::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,transparent 0,rgba(215,20,46,.09) 42%,transparent 76%);pointer-events:none}
-.topGrid{position:relative;z-index:1;display:grid;grid-template-columns:200px 1fr auto;gap:18px;align-items:center}
-.logoWrap{display:flex;flex-direction:column;gap:10px;align-items:flex-start}
-.logoWrap img{width:min(100%,240px);height:auto;filter:drop-shadow(0 8px 20px rgba(0,0,0,.34))}
-.kicker{display:inline-block;padding:8px 14px;border-radius:999px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);color:#f5f7fb;font-size:.72rem;letter-spacing:.2em;font-weight:900;text-transform:uppercase}
-.heroText h1{margin:0;line-height:.93;font-family:Impact, Haettenschweiler, 'Arial Black', sans-serif;font-size:clamp(2rem,5vw,4rem);letter-spacing:.01em;text-transform:uppercase;color:#fff}
-.heroText h1 span{color:#fff}
-.heroText h1 b{color:#ff253f}
-.heroText p{margin:10px 0 0;color:#d8dee7;max-width:720px;font-size:1rem;line-height:1.48}
-.topActions{display:flex;flex-direction:column;gap:10px;min-width:190px}
-.headerBtn{height:50px;border-radius:18px;border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.08);color:#f8fbff;font-weight:900;padding:0 18px;display:flex;align-items:center;justify-content:center;gap:10px;box-shadow:0 12px 22px rgba(0,0,0,.18)}
-.headerBtn.primary{background:linear-gradient(180deg,#ff2741,#d7142e);border-color:#cb1028}
-.headerBtn:hover{transform:translateY(-1px)}
-.liveRibbon{margin:14px 0 0;padding:12px 14px;border-radius:18px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);display:none;align-items:center;justify-content:space-between;gap:12px;color:#fff}
-.liveRibbon.show{display:flex}
-.liveRibbon .actions{display:flex;gap:10px;flex-wrap:wrap}
-.liveRibbon .tiny{height:42px;padding:0 14px}
-.summaryRow{display:grid;grid-template-columns:1.15fr repeat(4,.62fr) .9fr;gap:14px;margin-bottom:18px}
-.tile{border-radius:24px;background:rgba(255,255,255,.88);border:1px solid var(--line);box-shadow:var(--shadow);padding:16px}
-body.dark .tile{background:rgba(16,22,30,.9);border-color:#283240;box-shadow:0 20px 60px rgba(0,0,0,.28)}
-.coachTile{display:flex;align-items:center;gap:14px;padding:14px 16px}
-.coachTilePic{width:62px;height:62px;border-radius:18px;overflow:hidden;background:linear-gradient(180deg,#202937,#0e141c);flex:0 0 62px}
-.coachTilePic img{width:100%;height:100%;object-fit:cover;object-position:center 14%}
-.tileLabel{display:block;text-transform:uppercase;font-size:.72rem;letter-spacing:.18em;color:#8b95a3;font-weight:900;margin-bottom:6px}
-.tileValue{font-size:2.05rem;line-height:1;font-weight:1000;letter-spacing:-.04em}
-.tileSub{color:var(--muted);font-size:.94rem;margin-top:4px}
-.smartBtn{display:flex;align-items:center;justify-content:center;gap:12px;background:linear-gradient(180deg,#ff2842,#d7142e);border:1px solid #c40d25;color:#fff;border-radius:24px;min-height:92px;padding:18px;font-weight:1000;font-size:1.08rem;box-shadow:0 18px 42px rgba(215,20,46,.26)}
-.workspace{display:grid;grid-template-columns:1fr 300px;gap:18px;align-items:start}
-.panel{border-radius:30px;background:rgba(255,255,255,.9);border:1px solid var(--line);box-shadow:var(--shadow);overflow:hidden}
-body.dark .panel{background:rgba(15,20,28,.92);border-color:#283240}
-.panelHead{padding:22px 22px 0}
-.panelHead h2{margin:4px 0 0;font-size:1.72rem;letter-spacing:-.03em}
-.panelHead p{margin:10px 0 0;color:var(--muted)}
-.panelBody{padding:22px}
-.metaGrid{display:grid;grid-template-columns:1.2fr 1fr .5fr;gap:14px}
-.field{display:flex;flex-direction:column;gap:8px}
-.field label{font-weight:900;font-size:.78rem;letter-spacing:.16em;text-transform:uppercase;color:#7b8492}
-.field input,.field textarea,.field select{width:100%;min-height:56px;border-radius:18px;border:1px solid #d7dee7;background:#fff;padding:12px 16px;color:inherit}
-.field textarea{min-height:92px;resize:vertical}
-body.dark .field input,body.dark .field textarea,body.dark .field select{background:#0f141c;border-color:#2b3441;color:#eef4fb}
-.listHeader{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:22px 0 14px}
-.sectionList{display:flex;flex-direction:column;gap:14px}
-.sectionCard{position:relative;border-radius:26px;border:1px solid #dce3ec;background:linear-gradient(180deg,#ffffff,#f8fafc);box-shadow:0 14px 32px rgba(16,24,36,.06);overflow:hidden}
-.sectionCard::before{content:"";position:absolute;inset:0 auto 0 0;width:6px;background:var(--barColor,#101621)}
-.sectionCard.breakCard{background:linear-gradient(180deg,#f1f3f6,#ebeff3)}
-body.dark .sectionCard{background:linear-gradient(180deg,#101620,#151d29);border-color:#283240;box-shadow:0 14px 32px rgba(0,0,0,.18)}
-body.dark .sectionCard.breakCard{background:linear-gradient(180deg,#1b212b,#161c25)}
-.sectionInner{padding:16px 16px 14px 18px;display:grid;grid-template-columns:52px minmax(160px,.95fr) minmax(220px,1.3fr) minmax(250px,1fr) auto;gap:12px;align-items:center}
-.numBadge{width:52px;height:52px;border-radius:18px;display:grid;place-items:center;background:#0e141d;color:#fff;font-size:1.15rem;font-weight:1000;box-shadow:inset 0 0 0 1px rgba(255,255,255,.05)}
-.breakCard .numBadge{background:#8e959f}
-.modePill{display:inline-flex;align-items:center;gap:8px;padding:8px 12px;border-radius:999px;background:#eef2f6;border:1px solid #d8e0ea;font-size:.78rem;font-weight:900;text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px}
-body.dark .modePill{background:#131a24;border-color:#2c3746}
-.sectionCol{display:flex;flex-direction:column;gap:10px}
-.sectionTitleRow{display:flex;align-items:center;justify-content:space-between;gap:8px}
-.titleStack small{display:block;color:#8b95a3;text-transform:uppercase;font-size:.72rem;letter-spacing:.16em;font-weight:900}
-.titleStack strong{display:block;font-size:1.02rem;line-height:1.2}
-.inlineToggle{display:inline-flex;align-items:center;gap:8px;font-size:.82rem;font-weight:800;color:#66717e}
-.inlineToggle input{accent-color:var(--accent);width:18px;height:18px}
-.selectish, .coachBtn, .timeSel, .textInput, .detailInput, .catSelect, .beltSelect{width:100%;min-height:54px;border-radius:18px;border:1px solid #d7dee8;background:#fff;padding:0 14px;color:inherit}
-.detailInput{padding:12px 16px}
-body.dark .selectish,body.dark .coachBtn,body.dark .timeSel,body.dark .textInput,body.dark .detailInput,body.dark .catSelect,body.dark .beltSelect{background:#0f141c;border-color:#2b3441;color:#eef4fb}
-.coachTimeWrap{display:grid;grid-template-columns:minmax(0,1fr) 118px;gap:10px;align-items:center}
-.coachBtn{display:flex;align-items:center;gap:12px;padding:4px 12px;background:linear-gradient(180deg,#111823,#0e141d);border-color:#1d2633;color:#fff}
-.breakCard .coachBtn{background:#fff;color:#8993a0;border-color:#d4dce6}
-body.dark .breakCard .coachBtn{background:#111722;color:#b1b9c5;border-color:#2a3341}
-.coachBtn img{width:44px;height:44px;border-radius:14px;object-fit:cover;object-position:center 14%;background:linear-gradient(180deg,#202937,#0d141b);flex:0 0 44px}
-.coachBtn .name{font-weight:900;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.timeSel{font-weight:900;padding-right:12px}
-.sectionActions{display:flex;gap:8px;align-items:center;justify-content:flex-end;flex-wrap:wrap}
-.iconBtn{height:48px;min-width:48px;padding:0 14px;border-radius:16px;border:1px solid #d6dde7;background:#f7f9fc;color:#17202a;font-weight:1000;box-shadow:0 8px 18px rgba(16,24,36,.06)}
-.iconBtn.red{background:linear-gradient(180deg,#ff2741,#d7142e);color:#fff;border-color:#c40e25}
-.iconBtn.dark{background:#101620;color:#fff;border-color:#202837}
-body.dark .iconBtn{background:#131a24;border-color:#313b49;color:#eef4fb;box-shadow:none}
-.addBar{display:flex;gap:10px;flex-wrap:wrap;justify-content:flex-start;padding-top:16px;border-top:1px solid #e4e8ef;margin-top:16px}
-.sideStack{display:flex;flex-direction:column;gap:18px}
-.squadGrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
-.squadCard{border-radius:22px;overflow:hidden;border:1px solid #dde4ed;background:linear-gradient(180deg,#131922,#1d2530);color:#fff;box-shadow:0 14px 30px rgba(16,24,36,.12)}
-.squadCard img{width:100%;height:112px;object-fit:cover;object-position:center 14%}
-.squadCard strong{display:block;padding:10px 12px 14px;font-size:1rem;text-transform:uppercase;letter-spacing:.04em}
-.quickChips{position:fixed;left:50%;bottom:calc(var(--safeBottom) + 10px);transform:translate(-50%,140%);z-index:60;width:min(1120px,calc(100vw - 18px));transition:.25s ease}
-.quickChips.show{transform:translate(-50%,0)}
-.quickWrap{border-radius:24px;background:rgba(11,15,21,.98);color:#fff;border:1px solid rgba(255,255,255,.1);box-shadow:0 24px 64px rgba(0,0,0,.35);padding:14px}
-.quickTop{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:12px}
-.quickTop strong{font-size:.96rem;letter-spacing:.02em}
-.chipRow{display:flex;gap:8px;flex-wrap:wrap}
-.chip{height:42px;padding:0 14px;border-radius:14px;border:1px solid rgba(255,255,255,.16);background:rgba(255,255,255,.08);color:#fff;font-weight:900}
-.chip.active{background:linear-gradient(180deg,#ff2741,#d7142e);border-color:#c40e25}
-.modal{position:fixed;inset:0;background:rgba(6,10,16,.58);backdrop-filter:blur(8px);display:none;align-items:center;justify-content:center;padding:18px;z-index:80}
-.modal.show{display:flex}
-.modalBox{width:min(980px,100%);max-height:min(88vh,860px);overflow:auto;border-radius:28px;background:#fff;border:1px solid #dce3ec;box-shadow:0 38px 100px rgba(0,0,0,.34)}
-body.dark .modalBox{background:#101620;border-color:#293240;color:#eef4fb}
-.modalHead{position:sticky;top:0;z-index:2;display:flex;align-items:center;justify-content:space-between;gap:14px;padding:18px 20px;background:inherit;border-bottom:1px solid #e3e7ee}
-body.dark .modalHead{border-color:#26303e}
-.modalHead h3{margin:0;font-size:1.35rem}
-.modalBody{padding:18px 20px 20px}
-.modalFoot{position:sticky;bottom:0;z-index:2;padding:14px 20px;border-top:1px solid #e3e7ee;background:inherit;display:flex;justify-content:flex-end;gap:10px;flex-wrap:wrap}
-body.dark .modalFoot{border-color:#26303e}
-.coachPicker{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:14px}
-.coachPick{border:1px solid #dce3ec;border-radius:22px;overflow:hidden;background:#fff;padding:0;box-shadow:0 10px 20px rgba(15,23,42,.06)}
-body.dark .coachPick{background:#121924;border-color:#2b3441}
-.coachPick img{width:100%;height:148px;object-fit:cover;object-position:center 14%;background:linear-gradient(180deg,#1b2330,#0e141b)}
-.coachPick strong{display:block;padding:12px 12px 14px}
-.settingsGrid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
-.settingGroup{border:1px solid #dfe5ee;border-radius:22px;padding:16px;background:#f8fafc}
-body.dark .settingGroup{background:#0f141c;border-color:#293443}
-.settingRow{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 0;border-bottom:1px dashed #d7dde6}
-body.dark .settingRow{border-color:#243040}
-.settingRow:last-child{border-bottom:0}
-.switch{appearance:none;width:54px;height:32px;background:#d0d6de;border-radius:999px;position:relative;outline:none;border:1px solid #c7cfd9;cursor:pointer}
-.switch:checked{background:linear-gradient(180deg,#ff2741,#d7142e);border-color:#cf1229}
-.switch::after{content:"";position:absolute;top:3px;left:3px;width:24px;height:24px;border-radius:50%;background:#fff;transition:.2s ease}
-.switch:checked::after{left:25px}
-.templateList,.savedList,.timeTableList,.libraryBelts{display:flex;flex-direction:column;gap:12px}
-.itemCard{border:1px solid #dde4ed;border-radius:20px;background:#f8fafc;padding:14px}
-body.dark .itemCard{background:#0f141c;border-color:#2a3341}
-.tabs{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px}
-.tabBtn{height:42px;padding:0 14px;border-radius:14px;border:1px solid #d7dee8;background:#f4f7fb;font-weight:900}
-.tabBtn.active{background:linear-gradient(180deg,#ff2741,#d7142e);color:#fff;border-color:#c51027}
-body.dark .tabBtn{background:#131a24;border-color:#2d3948;color:#eef4fb}
-.beltGrid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
-.beltPills{display:flex;gap:8px;flex-wrap:wrap}
-.beltTag{display:inline-flex;align-items:center;gap:8px;padding:8px 12px;border-radius:999px;font-weight:900;border:1px solid rgba(0,0,0,.08)}
-.timerShell{display:none;min-height:calc(100vh - 28px - var(--safeTop) - var(--safeBottom));padding:10px 0}
-.timerShell.show{display:block}
-.timerStage{position:relative;min-height:calc(100vh - 50px - var(--safeTop) - var(--safeBottom));border-radius:34px;overflow:hidden;background:radial-gradient(circle at 62% 30%, rgba(215,20,46,.23), transparent 26%),linear-gradient(145deg,#0b0f15 0%,#111722 62%,#0b1017 100%);border:1px solid rgba(255,255,255,.08);box-shadow:0 28px 86px rgba(7,12,20,.4)}
-.timerStage::before{content:"";position:absolute;inset:0;background:url('paper-texture.png') center/cover no-repeat;mix-blend-mode:screen;opacity:.16;pointer-events:none}
-.timerTop, .timerBottom{position:absolute;left:0;right:0;z-index:2;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:18px 18px;transition:.25s ease}
-.timerTop{top:0;background:linear-gradient(180deg,rgba(0,0,0,.42),rgba(0,0,0,0))}
-.timerBottom{bottom:0;align-items:flex-end;background:linear-gradient(0deg,rgba(0,0,0,.5),rgba(0,0,0,0))}
-.timerStage.hideChrome .timerTop{transform:translateY(-110%);opacity:0}
-.timerStage.hideChrome .timerBottom{transform:translateY(110%);opacity:0}
-.timerStage.hideChrome .tapHint{opacity:.8}
-.timerHero{position:absolute;left:10px;bottom:10px;width:min(32vw,420px);max-height:82%;pointer-events:none;z-index:0;display:flex;align-items:flex-end;justify-content:flex-start}
-.timerHero img{width:auto;height:min(78vh,760px);max-width:100%;object-fit:contain;filter:drop-shadow(0 24px 34px rgba(0,0,0,.42))}
-.timerContent{position:relative;z-index:1;display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:18px;min-height:100%;padding:104px 18px 106px 32vw}
-.timerMain{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;text-align:center}
-.timerCategory{display:inline-flex;align-items:center;gap:10px;padding:10px 16px;border-radius:999px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.1);color:#fff;font-weight:900;text-transform:uppercase;letter-spacing:.08em}
-.timerTitle{font-family:Impact, Haettenschweiler, 'Arial Black', sans-serif;font-size:clamp(2rem,4vw,3rem);color:#fff;text-transform:uppercase;line-height:.95}
-.timerCircle{width:min(48vw,430px);height:min(48vw,430px);max-width:430px;max-height:430px;border-radius:50%;position:relative;display:grid;place-items:center;background:radial-gradient(circle at center,#141b25 0%,#0e131a 62%,#090d13 100%);box-shadow:inset 0 0 0 18px rgba(255,255,255,.04), 0 18px 48px rgba(0,0,0,.34)}
-.timerCircle svg{position:absolute;inset:0;transform:rotate(-90deg)}
-.timerCircle .time{font-family:Impact, Haettenschweiler, 'Arial Black', sans-serif;font-size:clamp(4rem,11vw,7rem);letter-spacing:.02em;color:#fff;line-height:.9}
-.timerCircle .sub{margin-top:10px;color:#ff2d46;font-weight:900;letter-spacing:.2em;text-transform:uppercase}
-.timerMeta{display:flex;gap:18px;flex-wrap:wrap;justify-content:center;color:#d5dde8}
-.timerMeta strong{display:block;color:#fff;font-size:1.22rem}
-.upNext{display:flex;flex-direction:column;gap:12px;justify-content:center}
-.nextCard{border-radius:22px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.1);padding:14px;color:#fff}
-.nextCard small{display:block;color:#aeb7c3;text-transform:uppercase;letter-spacing:.14em;font-weight:900;margin-bottom:8px}
-.nextItem{display:flex;align-items:center;gap:10px}
-.nextItem img{width:48px;height:48px;border-radius:14px;object-fit:cover;object-position:center 14%;background:linear-gradient(180deg,#1b2330,#0e141b)}
-.timerBtns{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
-.timerBtns .iconBtn{height:52px;min-width:96px;padding:0 18px;border-radius:18px}
-.timerBtns .iconBtn.primary{background:linear-gradient(180deg,#ff2741,#d7142e);color:#fff;border-color:#c40e25}
-.tapHint{position:absolute;right:16px;bottom:16px;color:rgba(255,255,255,.55);font-size:.8rem;letter-spacing:.06em;opacity:.32;transition:.2s ease;z-index:2}
-.muted{color:var(--muted)}
-.colorPreview{width:14px;height:14px;border-radius:50%;display:inline-block;margin-right:6px;vertical-align:-2px;border:1px solid rgba(0,0,0,.1)}
-@media(max-width:1100px){.summaryRow{grid-template-columns:repeat(3,1fr)}.workspace{grid-template-columns:1fr}.sideStack{order:-1}.timerContent{grid-template-columns:1fr;padding-left:18px}.timerHero{opacity:.18;left:auto;right:-20px;width:min(44vw,380px)}.upNext{max-width:520px;margin:0 auto 50px}.timerMain{padding-top:10px}}
-@media(max-width:860px){.topGrid{grid-template-columns:1fr}.topActions{flex-direction:row;flex-wrap:wrap;min-width:0}.topActions .headerBtn{flex:1 1 140px}.summaryRow{grid-template-columns:1fr 1fr}.metaGrid{grid-template-columns:1fr}.sectionInner{grid-template-columns:48px 1fr;gap:10px}.numBadge{grid-column:1;grid-row:1}.modeWrap{grid-column:2;grid-row:1}.catWrap{grid-column:1/3;grid-row:2}.detailWrap{grid-column:1/3;grid-row:3}.coachWrap{grid-column:1/3;grid-row:4}.sectionActions{grid-column:1/3;grid-row:5;justify-content:flex-end}.coachTimeWrap{grid-template-columns:1fr 110px}.timerCircle{width:min(72vw,340px);height:min(72vw,340px)}}
-@media(max-width:560px){.app{padding:calc(var(--safeTop) + 10px) 10px calc(var(--safeBottom) + 18px)}.topbar{padding:14px}.kicker{display:none}.heroText h1{font-size:2.45rem}.heroText p{font-size:.92rem}.summaryRow{grid-template-columns:1fr}.squadGrid{grid-template-columns:repeat(3,minmax(0,1fr))}.squadCard img{height:88px}.squadCard strong{font-size:.78rem;padding:8px 8px 12px}.headerBtn{height:46px;border-radius:15px}.modal{padding:10px}.modalBox{max-height:92vh;border-radius:24px}.coachPicker{grid-template-columns:1fr 1fr}.settingsGrid,.beltGrid{grid-template-columns:1fr}.timerStage{border-radius:24px}.timerTop,.timerBottom{padding:14px 12px}.timerContent{padding:84px 12px 100px}.timerHero{right:-80px;bottom:-20px;width:56vw;opacity:.24}.timerTitle{font-size:1.62rem}.timerMeta{gap:12px}.timerBtns{justify-content:center}}
+:root{--red:#ef1c35;--red2:#c80f27;--ink:#111722;--ink2:#171f2c;--paper:#f2f4f7;--card:#fff;--line:#d8dfe8;--muted:#6b7685;--shadow:0 18px 46px rgba(10,16,24,.12);--safe-top:env(safe-area-inset-top,0px);--safe-bottom:env(safe-area-inset-bottom,0px);--vv-bottom:12px}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}html,body{margin:0;min-height:100%;font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;background:var(--paper);color:#121820}body.dark{--paper:#090d13;--card:#111722;--line:#293342;--muted:#a3adba;color:#f3f6fa;background:#090d13}button,input,select,textarea{font:inherit}button{cursor:pointer}img{display:block}.hidden{display:none!important}.app{max-width:1240px;margin:auto;padding:calc(var(--safe-top) + 10px) 12px calc(var(--safe-bottom) + 28px)}
+/* Header - no raster texture */
+.hero{position:relative;overflow:hidden;border-radius:28px;background:linear-gradient(145deg,#080b10,#121925 62%,#0b1017);box-shadow:0 26px 70px rgba(0,0,0,.32);border:1px solid rgba(255,255,255,.08);padding:18px 18px 14px;color:#fff}.hero:before{content:"";position:absolute;inset:-45% -10%;background:repeating-linear-gradient(-16deg,transparent 0 28px,rgba(255,255,255,.03) 28px 31px,transparent 31px 56px),linear-gradient(112deg,transparent 52%,rgba(239,28,53,.18) 52.5%,transparent 68%);transform:rotate(-2deg);pointer-events:none}.heroGrid{position:relative;z-index:1;display:grid;grid-template-columns:210px minmax(0,1fr) auto;gap:18px;align-items:center}.logo{width:200px;max-height:90px;object-fit:contain}.hero h1{margin:0;font:900 clamp(2rem,4.3vw,4.2rem)/.9 Impact,"Arial Black",sans-serif;text-transform:uppercase;letter-spacing:.015em}.hero h1 b{color:var(--red)}.hero p{margin:8px 0 0;color:#cbd3de;font-weight:600;line-height:1.35}.nav{display:grid;grid-template-columns:repeat(2,minmax(130px,1fr));gap:8px;min-width:290px}.btn{border:1px solid #cfd6df;background:#fff;color:#16202c;border-radius:16px;min-height:48px;padding:0 16px;font-weight:900;box-shadow:0 7px 16px rgba(15,23,42,.08)}.btn.red{background:linear-gradient(180deg,#ff2b46,var(--red2));border-color:#b90d23;color:#fff}.btn.dark{background:#111822;border-color:#2d3847;color:#fff}.btn.ghost{background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.13);color:#fff}.btn.small{min-height:40px;padding:0 12px;border-radius:13px}.btn.icon{width:46px;padding:0;display:grid;place-items:center}.nav .btn{box-shadow:none}.liveBar{position:relative;z-index:1;margin-top:12px;display:none;align-items:center;justify-content:space-between;gap:10px;border-radius:18px;padding:10px 12px;background:rgba(239,28,53,.15);border:1px solid rgba(239,28,53,.35)}.liveBar.show{display:flex}.liveBar strong{display:block}.liveBar span{font-size:.82rem;color:#d4dce6}.actions{display:flex;gap:8px;flex-wrap:wrap}
+.stats{display:grid;grid-template-columns:1.3fr repeat(4,.72fr) 1fr;gap:10px;margin:12px 0}.stat{background:var(--card);border:1px solid var(--line);border-radius:22px;padding:14px;box-shadow:var(--shadow);min-height:86px}.stat small{display:block;color:var(--muted);text-transform:uppercase;letter-spacing:.13em;font-weight:900;font-size:.68rem}.stat strong{display:block;font-size:1.7rem;margin-top:5px;letter-spacing:-.04em}.leadStat{display:flex;align-items:center;gap:12px}.leadAvatar{width:56px;height:56px;border-radius:16px;overflow:hidden;background:#0f151e;flex:0 0 56px}.leadAvatar img{width:100%;height:100%;object-fit:cover;object-position:center 14%}.smart{background:linear-gradient(145deg,#c90d25,#ff2943);border-color:#bb0c22;color:#fff;display:flex;align-items:center;justify-content:center;gap:10px;font-size:1.05rem}
+.layout{display:grid;grid-template-columns:minmax(0,1fr) 280px;gap:14px;align-items:start}.panel{background:var(--card);border:1px solid var(--line);border-radius:26px;box-shadow:var(--shadow);overflow:hidden}.panelHead{padding:18px 18px 0}.eyebrow{font-size:.68rem;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);font-weight:1000}.panelHead h2{margin:4px 0 0;font-size:1.55rem}.panelHead p{margin:7px 0 0;color:var(--muted);font-size:.9rem}.panelBody{padding:16px 18px 18px}.fields{display:grid;grid-template-columns:1.2fr .8fr .45fr;gap:10px}.field{display:flex;flex-direction:column;gap:6px}.field label{font-size:.68rem;text-transform:uppercase;letter-spacing:.11em;color:var(--muted);font-weight:900}.field input,.field textarea,.field select,.control{width:100%;min-height:48px;border:1px solid var(--line);border-radius:14px;background:#fff;color:#111722;padding:10px 12px}.dark .field input,.dark .field textarea,.dark .field select,.dark .control{background:#0d131b;color:#f4f6fa}.field textarea{min-height:78px;resize:vertical}.toolbar{display:flex;justify-content:space-between;gap:10px;align-items:center;flex-wrap:wrap;margin:16px 0 12px;padding-top:12px;border-top:1px solid var(--line)}
+/* Section cards inline */
+.sections{display:flex;flex-direction:column;gap:10px}.section{position:relative;border:1px solid var(--line);border-radius:22px;background:linear-gradient(180deg,#fff,#f8fafc);overflow:hidden;box-shadow:0 10px 24px rgba(15,23,42,.05)}.dark .section{background:linear-gradient(180deg,#111722,#0d131b)}.section:before{content:"";position:absolute;left:0;top:0;bottom:0;width:6px;background:var(--accent,#161c26)}.sectionMain{display:grid;grid-template-columns:46px minmax(125px,.82fr) minmax(190px,1.15fr) minmax(220px,1fr) auto;gap:9px;align-items:center;padding:12px 12px 12px 16px}.num{width:42px;height:42px;border-radius:14px;display:grid;place-items:center;background:#121922;color:#fff;font-weight:1000}.modeRow{display:flex;align-items:center;gap:7px;flex-wrap:wrap}.modeTag{display:inline-flex;align-items:center;gap:6px;border-radius:999px;padding:5px 8px;background:#edf1f6;color:#526070;font-size:.68rem;text-transform:uppercase;letter-spacing:.07em;font-weight:900}.dark .modeTag{background:#1a2330;color:#aab5c1}.gradeToggle{display:inline-flex;align-items:center;gap:5px;font-size:.7rem;color:var(--muted);font-weight:800}.gradeToggle input{accent-color:var(--red)}.select,.text,.time{min-height:46px;width:100%;border:1px solid var(--line);border-radius:13px;background:#fff;color:#111722;padding:8px 10px}.dark .select,.dark .text,.dark .time{background:#0d131b;color:#f4f6fa}.text{font-weight:700}.coachTime{display:grid;grid-template-columns:minmax(0,1fr) 92px;gap:7px}.coachBtn{min-height:46px;border-radius:13px;border:1px solid #273242;background:#121923;color:#fff;display:flex;align-items:center;gap:8px;padding:3px 9px;min-width:0}.coachBtn img{width:38px;height:38px;border-radius:11px;object-fit:cover;object-position:center 14%;background:#0d1218;flex:0 0 38px}.coachBtn span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-weight:900}.time{font-weight:900}.rowBtns{display:flex;gap:5px;justify-content:flex-end}.rowBtns .btn{min-height:42px;min-width:42px;padding:0 10px}.roundsPanel{display:none;border-top:1px solid var(--line);background:rgba(12,17,24,.035);padding:12px 14px 14px 62px}.dark .roundsPanel{background:rgba(255,255,255,.025)}.section.roundsOpen .roundsPanel{display:block}.roundGrid{display:grid;grid-template-columns:repeat(5,minmax(105px,1fr));gap:8px}.roundStat{border:1px solid var(--line);border-radius:13px;padding:8px 10px;background:var(--card)}.roundStat small{display:block;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;font-size:.62rem;font-weight:900}.roundStat input,.roundStat select{margin-top:4px;width:100%;border:0;background:transparent;color:inherit;font-weight:900;outline:none}.roundSummary{margin-top:8px;color:var(--muted);font-size:.82rem}.beltIcon{width:34px;height:12px;border-radius:6px;display:inline-block;box-shadow:inset 0 0 0 1px rgba(0,0,0,.25)}
+.side{display:flex;flex-direction:column;gap:14px}.coachGrid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}.coachCard{border:1px solid var(--line);border-radius:18px;background:#0e141d;overflow:hidden;color:#fff;padding:0}.coachCard img{width:100%;height:104px;object-fit:cover;object-position:center 14%;background:#0e141d}.coachCard strong{display:block;padding:7px 9px 10px;font-size:.82rem;text-transform:uppercase}.tip{border:1px solid var(--line);border-radius:16px;padding:10px;margin-top:8px;color:var(--muted);font-size:.84rem}.tip strong{color:inherit;display:block;margin-bottom:3px}
+/* Modal */
+.modal{position:fixed;inset:0;z-index:200;background:rgba(3,7,12,.68);backdrop-filter:blur(7px);display:none;align-items:center;justify-content:center;padding:12px}.modal.show{display:flex}.modalBox{width:min(900px,100%);max-height:90dvh;overflow:auto;background:var(--card);border:1px solid var(--line);border-radius:24px;box-shadow:0 28px 80px rgba(0,0,0,.38)}.modalHead,.modalFoot{position:sticky;z-index:3;background:var(--card);display:flex;align-items:center;justify-content:space-between;gap:10px;padding:14px 16px}.modalHead{top:0;border-bottom:1px solid var(--line)}.modalFoot{bottom:0;border-top:1px solid var(--line)}.modalHead h3{margin:0}.modalBody{padding:14px 16px}.coachPickGrid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}.coachPick{border:1px solid var(--line);border-radius:18px;background:#0d131b;color:#fff;overflow:hidden;padding:0}.coachPick img{width:100%;height:130px;object-fit:cover;object-position:center 14%}.coachPick strong{display:block;padding:9px}.tabs{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:12px}.tab{min-height:40px;padding:0 12px;border-radius:12px;border:1px solid var(--line);background:var(--card);color:inherit;font-weight:900}.tab.active{background:var(--red);color:#fff;border-color:#be1025}.libraryGrid{display:grid;grid-template-columns:210px 1fr;gap:12px}.beltList{display:flex;flex-direction:column;gap:7px}.beltBtn{display:flex;align-items:center;gap:8px;min-height:42px;border:1px solid var(--line);border-radius:12px;background:var(--card);color:inherit;padding:0 10px;font-weight:900;text-align:left}.beltBtn.active{outline:2px solid var(--red)}.techList{display:flex;flex-direction:column;gap:7px}.techItem{display:flex;align-items:center;gap:7px}.techItem input{flex:1;min-height:42px;border:1px solid var(--line);border-radius:12px;background:var(--card);color:inherit;padding:0 10px}.timetable{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}.day{border:1px solid var(--line);border-radius:16px;padding:10px}.day h4{margin:0 0 8px}.classItem{border-left:4px solid var(--red);padding:7px 8px;margin:7px 0;background:rgba(239,28,53,.06);border-radius:0 10px 10px 0}.classItem strong,.classItem span{display:block}.classItem span{color:var(--muted);font-size:.78rem}.classItem button{margin-top:5px}.settings{display:grid;grid-template-columns:1fr 1fr;gap:10px}.settingsGroup{border:1px solid var(--line);border-radius:16px;padding:12px}.setting{display:flex;justify-content:space-between;gap:12px;align-items:center;padding:9px 0;border-bottom:1px dashed var(--line)}.setting:last-child{border-bottom:0}.toggle{appearance:none;width:50px;height:29px;border-radius:999px;background:#b8c0ca;position:relative;flex:0 0 50px}.toggle:checked{background:var(--red)}.toggle:after{content:"";position:absolute;top:3px;left:3px;width:23px;height:23px;border-radius:50%;background:#fff;transition:.2s}.toggle:checked:after{left:24px}.saved{display:flex;flex-direction:column;gap:8px}.savedItem{display:flex;justify-content:space-between;gap:10px;align-items:flex-start;border:1px solid var(--line);border-radius:15px;padding:10px}.savedItem small{color:var(--muted)}
+/* Quick type tray: visualViewport positions it ABOVE keyboard */
+.quickTray{position:fixed;z-index:500;left:50%;transform:translateX(-50%);width:min(1050px,calc(100vw - 14px));top:auto;bottom:calc(var(--safe-bottom) + 8px);display:none}.quickTray.show{display:block}.quickInner{background:rgba(9,13,19,.98);border:1px solid rgba(255,255,255,.12);border-radius:20px;padding:10px;box-shadow:0 24px 70px rgba(0,0,0,.45);color:#fff}.quickHead{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:8px}.quickHead small{color:#aab4c0}.chips{display:flex;gap:6px;flex-wrap:wrap;max-height:98px;overflow:auto}.chip{min-height:36px;padding:0 10px;border:1px solid rgba(255,255,255,.16);border-radius:11px;background:#171f2b;color:#fff;font-weight:900;font-size:.78rem}.chip.manage{background:var(--red);border-color:#bd0e23}
+/* Timer */
+.timerView{position:fixed;inset:0;z-index:800;background:#0b0f15;color:#fff;display:none}.timerView.show{display:block}.timerStage{position:relative;width:100%;height:100dvh;overflow:hidden;background:radial-gradient(circle at 55% 42%,rgba(239,28,53,.16),transparent 30%),linear-gradient(135deg,#080c12,#111722 58%,#090d13)}.timerStage:before{content:"";position:absolute;inset:-25%;background:repeating-linear-gradient(-12deg,transparent 0 34px,rgba(255,255,255,.025) 34px 37px,transparent 37px 68px),linear-gradient(118deg,transparent 0 52%,rgba(239,28,53,.15) 52.5% 55%,transparent 55.5%);transform:rotate(-2deg);pointer-events:none}.timerTop,.timerBottom{position:absolute;z-index:20;left:0;right:0;display:flex;align-items:center;justify-content:space-between;gap:8px;padding:calc(var(--safe-top) + 8px) 12px 8px;transition:.28s ease;background:linear-gradient(180deg,rgba(0,0,0,.72),rgba(0,0,0,0))}.timerTop{top:0}.timerBottom{bottom:0;padding:8px 12px calc(var(--safe-bottom) + 8px);align-items:flex-end;background:linear-gradient(0deg,rgba(0,0,0,.74),rgba(0,0,0,0))}.timerStage.clean .timerTop{transform:translateY(-115%);opacity:0}.timerStage.clean .timerBottom{transform:translateY(115%);opacity:0}.timerMain{position:relative;z-index:4;height:100%;display:grid;grid-template-columns:minmax(260px,31vw) 1fr minmax(230px,24vw);align-items:center;gap:12px;padding:76px 14px 88px}.runner{height:100%;display:flex;align-items:flex-end;justify-content:center;overflow:visible}.runner img{height:min(86vh,840px);max-width:128%;object-fit:contain;object-position:center bottom;filter:drop-shadow(0 25px 28px rgba(0,0,0,.5));transform:translateX(-120%);opacity:0;transition:.55s cubic-bezier(.2,.8,.2,1)}.runner.in img{transform:translateX(0);opacity:1}.timerCenter{text-align:center}.timerMode{display:inline-flex;align-items:center;gap:8px;border:1px solid rgba(255,255,255,.13);background:rgba(255,255,255,.07);border-radius:999px;padding:8px 12px;font-size:.75rem;text-transform:uppercase;letter-spacing:.14em;font-weight:900}.timerTitle{font:900 clamp(2.2rem,5vw,5rem)/.92 Impact,"Arial Black",sans-serif;text-transform:uppercase;margin:14px auto 6px;max-width:760px}.timerDetail{color:#d8dfe8;font-size:clamp(1rem,1.6vw,1.35rem);font-weight:800}.clock{font:900 clamp(5rem,13vw,10rem)/.86 Impact,"Arial Black",sans-serif;margin:18px 0 8px;letter-spacing:.015em;text-shadow:0 9px 26px rgba(0,0,0,.35)}.roundLabel{color:#ff2a43;font-weight:1000;letter-spacing:.18em;text-transform:uppercase}.timerMeta{display:flex;justify-content:center;gap:22px;flex-wrap:wrap;margin-top:16px}.timerMeta small{display:block;color:#9faab7;text-transform:uppercase;font-size:.65rem;letter-spacing:.1em}.timerMeta strong{display:block;font-size:1.2rem}.upNext{display:flex;flex-direction:column;gap:10px}.nextCard{border:1px solid rgba(255,255,255,.12);border-radius:18px;background:rgba(255,255,255,.06);padding:11px}.nextCard small{display:block;color:#aab4c0;text-transform:uppercase;letter-spacing:.12em;font-weight:900;margin-bottom:5px}.nextLine{display:flex;align-items:center;gap:9px}.nextLine img{width:42px;height:42px;border-radius:11px;object-fit:cover;object-position:center 14%}.nextLine strong{display:block}.nextLine span{font-size:.78rem;color:#c4ccd6}.timerBtns{display:flex;gap:7px;flex-wrap:wrap}.timerBtns .btn{box-shadow:none}.tapHint{position:absolute;right:12px;bottom:calc(var(--safe-bottom) + 8px);z-index:5;color:rgba(255,255,255,.38);font-size:.7rem;letter-spacing:.09em}.progress{position:absolute;left:0;right:0;bottom:0;height:4px;background:rgba(255,255,255,.08);z-index:30}.progress>span{display:block;height:100%;background:var(--red);width:0}.breakVisual{position:absolute;inset:0;display:none;align-items:center;justify-content:center;z-index:1;opacity:.13;font:900 clamp(10rem,30vw,24rem)/1 Impact;color:#fff}.timerStage.breakMode .breakVisual{display:flex}
+@media(max-width:1050px){.stats{grid-template-columns:repeat(3,1fr)}.layout{grid-template-columns:1fr}.side{order:-1}.coachGrid{grid-template-columns:repeat(4,1fr)}.sectionMain{grid-template-columns:44px minmax(130px,.9fr) minmax(180px,1fr) minmax(205px,1fr)}.rowBtns{grid-column:2/5}.roundGrid{grid-template-columns:repeat(3,1fr)}.timerMain{grid-template-columns:minmax(190px,30vw) 1fr}.upNext{position:absolute;right:12px;top:78px;width:230px}.timerMain{padding-right:245px}.runner img{height:min(80vh,700px)}}
+@media(max-width:760px){.heroGrid{grid-template-columns:1fr}.logo{width:180px}.nav{grid-template-columns:repeat(2,1fr);min-width:0}.stats{grid-template-columns:1fr 1fr}.fields{grid-template-columns:1fr}.coachGrid{grid-template-columns:repeat(4,1fr)}.sectionMain{grid-template-columns:40px 1fr 94px;padding:10px 10px 10px 14px}.num{grid-column:1;grid-row:1}.modeWrap{grid-column:2;grid-row:1}.timeWrap{grid-column:3;grid-row:1}.categoryWrap{grid-column:2/4;grid-row:2}.detailWrap{grid-column:2/4;grid-row:3}.coachWrap{grid-column:2/4;grid-row:4}.rowBtns{grid-column:1/4;grid-row:5}.roundsPanel{padding-left:14px}.roundGrid{grid-template-columns:repeat(2,1fr)}.coachPickGrid{grid-template-columns:repeat(2,1fr)}.libraryGrid{grid-template-columns:1fr}.timetable{grid-template-columns:1fr 1fr}.settings{grid-template-columns:1fr}.timerMain{grid-template-columns:1fr;padding:70px 12px 84px}.runner{position:absolute;left:-10vw;bottom:0;width:48vw;height:86%;opacity:.38;z-index:-1}.runner img{height:76vh}.upNext{position:absolute;right:8px;top:68px;width:180px;opacity:.92}.timerTitle{max-width:74vw}.clock{font-size:clamp(4.8rem,23vw,8rem)}.timerMeta{gap:12px}.timerBtns .btn{min-height:42px;padding:0 10px}.timerTop .timerBtns .btn span{display:none}}
+@media(max-width:500px){.app{padding-left:8px;padding-right:8px}.hero{border-radius:22px;padding:14px}.hero h1{font-size:2.35rem}.stats{grid-template-columns:1fr}.coachGrid{grid-template-columns:repeat(2,1fr)}.panel{border-radius:22px}.toolbar .actions{width:100%}.toolbar .actions .btn{flex:1}.timetable{grid-template-columns:1fr}.upNext{display:none}.timerMain{padding-right:10px}.timerTitle{max-width:92vw}.runner{width:58vw;opacity:.3}.quickTray{width:calc(100vw - 8px)}}
 </style>
 </head>
-<body>
-<div id="app" class="app">
-  <section id="plannerView">
-    <div class="topbar">
-      <div class="topGrid">
-        <div class="logoWrap">
-          <img id="headerLogo" src="logo-dark.png" alt="Featherstone Kickboxing Club logo">
-          <span class="kicker">Build • Assign • Run</span>
-        </div>
-        <div class="heroText">
-          <h1><span>Lesson</span> <b>Planner</b></h1>
-          <p>Create sessions quickly, assign coaches at a glance, switch into grading mode section-by-section, and run lessons with a lively full-screen timer.</p>
-        </div>
-        <div class="topActions">
-          <button class="headerBtn" id="savedLessonsBtn">💾 Saved Lessons</button>
-          <button class="headerBtn" id="libraryBtn">📚 Library</button>
-          <button class="headerBtn" id="timetableBtn">🗓️ Timetable</button>
-          <button class="headerBtn" id="settingsBtn">⚙️ Settings</button>
-          <button class="headerBtn primary" id="newLessonBtn">＋ New Lesson</button>
-        </div>
-      </div>
-      <div id="liveRibbon" class="liveRibbon">
-        <div>
-          <strong>Lesson currently in progress</strong>
-          <div id="liveRibbonText">The timer is running in the background.</div>
-        </div>
-        <div class="actions">
-          <button class="headerBtn tiny" id="resumeLessonBtn">Resume lesson</button>
-          <button class="headerBtn tiny" id="cancelLiveEditBtn">Cancel edit</button>
-        </div>
-      </div>
-    </div>
-
-    <div class="summaryRow">
-      <div class="tile coachTile">
-        <div class="coachTilePic"><img id="summaryCoachImg" src="joe-avatar.png" alt="Default coach"></div>
-        <div>
-          <span class="tileLabel">Default Coach</span>
-          <div class="tileValue" id="summaryCoachName" style="font-size:1.65rem">Joe</div>
-          <div class="tileSub">Tap any section coach thumbnail to change the coach.</div>
-        </div>
-      </div>
-      <div class="tile"><span class="tileLabel">Total Time</span><div class="tileValue" id="sumTime">0:00</div><div class="tileSub">Lesson length</div></div>
-      <div class="tile"><span class="tileLabel">Sections</span><div class="tileValue" id="sumSections">0</div><div class="tileSub">Active blocks</div></div>
-      <div class="tile"><span class="tileLabel">Breaks</span><div class="tileValue" id="sumBreaks">0</div><div class="tileSub">Recovery blocks</div></div>
-      <div class="tile"><span class="tileLabel">Modes</span><div class="tileValue" id="sumModes" style="font-size:1.45rem">Standard</div><div class="tileSub">Standard / Grading mix</div></div>
-      <button class="smartBtn" id="smartPlanBtn">✨ Smart Plan</button>
-    </div>
-
-    <div class="workspace">
-      <div class="panel">
-        <div class="panelHead"><div class="tileLabel">Lesson Details</div><h2>Build the session</h2><p>Everything stays editable directly on the planner surface.</p></div>
-        <div class="panelBody">
-          <div class="metaGrid">
-            <div class="field"><label>Lesson Name</label><input id="lessonName" placeholder="Kickboxing Class"></div>
-            <div class="field"><label>Overall Coach</label><select id="overallCoach"></select></div>
-            <div class="field"><label>Total Time</label><input id="overallTime" disabled></div>
-          </div>
-          <div class="field" style="margin-top:14px"><label>Lesson Notes / Briefing</label><textarea id="lessonNotes" placeholder="Technical focus, intensity, safety reminders, aims for the session..."></textarea></div>
-
-          <div class="listHeader">
-            <div>
-              <div class="tileLabel">Lesson Structure</div>
-              <strong style="font-size:1.1rem">Inline editing, fast adjustments, clear thumbnails.</strong>
-            </div>
-            <div style="display:flex;gap:10px;flex-wrap:wrap">
-              <button class="iconBtn" id="load45Btn">Load 45 min example</button>
-              <button class="iconBtn" id="clearBtn">Clear all</button>
-            </div>
-          </div>
-
-          <div id="sectionList" class="sectionList"></div>
-          <div class="addBar">
-            <button class="iconBtn red" id="addSectionBtn">＋ Add Section</button>
-            <button class="iconBtn" id="addBreakBtn">＋ Add Break</button>
-            <button class="iconBtn" id="addIntervalBtn">＋ Add Interval</button>
-          </div>
-
-          <div class="quickWrap" style="margin-top:18px;background:linear-gradient(135deg,#0f141c,#1a2330);color:#fff;border:1px solid rgba(255,255,255,.08)">
-            <div class="quickTop" style="margin:0"><strong>Quick plan ideas</strong><span class="muted" style="color:#c4cddd">Based on how FKBC sessions usually flow.</span></div>
-            <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:12px">
-              <button class="chip" data-template="junior">Junior class layout</button>
-              <button class="chip" data-template="adultPads">Adult pad session</button>
-              <button class="chip" data-template="sparring">Focused sparring</button>
-              <button class="chip" data-template="ladies">Ladies fitness</button>
-            </div>
-          </div>
-
-          <div style="display:flex;justify-content:flex-end;gap:10px;flex-wrap:wrap;margin-top:18px">
-            <button class="iconBtn" id="saveLessonBtn">Save lesson</button>
-            <button class="iconBtn red" id="reviewStartBtn">Review & Start</button>
-          </div>
-        </div>
-      </div>
-
-      <div class="sideStack">
-        <div class="panel">
-          <div class="panelHead"><div class="tileLabel">Coach Squad</div><h2>Inspiring visuals</h2><p>Planner uses head-and-shoulder art. Timer uses full-body characters.</p></div>
-          <div class="panelBody"><div id="squadGrid" class="squadGrid"></div></div>
-        </div>
-        <div class="panel">
-          <div class="panelHead"><div class="tileLabel">Useful Tips</div><h2>Built for real sessions</h2></div>
-          <div class="panelBody">
-            <div class="itemCard"><strong>Normal class flow</strong><div class="muted">Warm-up → short break → technical rounds or pad work → final high-intensity rounds → break → stretch / cool down.</div></div>
-            <div class="itemCard"><strong>Grading mode</strong><div class="muted">Turn it on per section. Belt colour controls the section styling and technique options.</div></div>
-            <div class="itemCard"><strong>Quick type</strong><div class="muted">Tap a detail field to reveal quick-strike chips like JAB, CROSS, ROUNDHOUSE and more.</div></div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section id="timerView" class="timerShell">
-    <div id="timerStage" class="timerStage">
-      <div class="timerTop">
-        <div>
-          <div class="tileLabel" style="color:#aeb7c3">Current Lesson</div>
-          <div style="color:#fff;font-size:1.3rem;font-weight:900" id="timerLessonName">Kickboxing Class</div>
-        </div>
-        <div class="timerBtns">
-          <button class="iconBtn" id="timerSoundBtn">🔊 Sound On</button>
-          <button class="iconBtn" id="timerEditBtn">✎ Edit</button>
-          <button class="iconBtn" id="timerExitBtn">← Planner</button>
-        </div>
-      </div>
-      <div class="timerHero"><img id="timerCoachImg" src="joe-full.png" alt="Coach illustration"></div>
-      <div class="timerContent">
-        <div class="timerMain">
-          <div class="timerCategory" id="timerCatPill">Technique • 1 / 1</div>
-          <div class="timerTitle" id="timerSectionTitle">Warm Up</div>
-          <div class="timerCircle">
-            <svg viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="44" stroke="rgba(255,255,255,.08)" stroke-width="6" fill="none"></circle><circle id="progressRing" cx="50" cy="50" r="44" stroke="#ff2741" stroke-linecap="round" stroke-width="6" fill="none" stroke-dasharray="276.46" stroke-dashoffset="0"></circle></svg>
-            <div>
-              <div class="time" id="timerClock">00:00</div>
-              <div class="sub" id="timerSub">Get ready</div>
-            </div>
-          </div>
-          <div class="timerMeta">
-            <div><span class="muted" style="color:#afbac7">Elapsed</span><strong id="timerElapsed">0:00</strong></div>
-            <div><span class="muted" style="color:#afbac7">Remaining</span><strong id="timerRemain">0:00</strong></div>
-            <div><span class="muted" style="color:#afbac7">Coach</span><strong id="timerCoachName">Joe</strong></div>
-          </div>
-        </div>
-        <div class="upNext">
-          <div class="nextCard"><small>Up next</small><div id="nextOne"></div></div>
-          <div class="nextCard"><small>Then</small><div id="nextTwo"></div></div>
-        </div>
-      </div>
-      <div class="timerBottom">
-        <div class="timerBtns">
-          <button class="iconBtn" id="pauseBtn">⏸ Pause</button>
-          <button class="iconBtn" id="minusBtn">−30s</button>
-          <button class="iconBtn" id="plusBtn">+30s</button>
-          <button class="iconBtn" id="resetBtn">Reset</button>
-        </div>
-        <div class="timerBtns">
-          <button class="iconBtn primary" id="nextBtn">Next Section</button>
-          <button class="iconBtn red" id="endBtn">End Lesson</button>
-        </div>
-      </div>
-      <div class="tapHint">Tap screen to hide / show controls</div>
-    </div>
-  </section>
+<body class="dark">
+<div class="app" id="plannerApp">
+<header class="hero">
+ <div class="heroGrid">
+  <div><img class="logo" src="fkbc-logo-dark.png" alt="Featherstone Kickboxing Club"><div class="eyebrow" style="color:#ff8796;margin-top:7px">Coach Console • Edition 9</div></div>
+  <div><h1>Lesson <b>Planner</b></h1><p>Fast lesson building, real coach handover, rounds, grading work and a timer designed to stay readable on the mat.</p></div>
+  <div class="nav"><button class="btn ghost" id="savedBtn">Saved</button><button class="btn ghost" id="libraryBtn">Library</button><button class="btn ghost" id="timetableBtn">Timetable</button><button class="btn ghost" id="settingsBtn">Settings</button><button class="btn red" id="saveTopBtn">Save Lesson</button><button class="btn red" id="newBtn">+ New Lesson</button></div>
+ </div>
+ <div class="liveBar" id="liveBar"><div><strong>Live lesson edit</strong><span id="liveText">Timer paused while you edit.</span></div><div class="actions"><button class="btn small ghost" id="resumeLiveBtn">Resume lesson</button><button class="btn small ghost" id="cancelLiveBtn">Cancel edit</button></div></div>
+</header>
+<section class="stats">
+ <div class="stat leadStat"><div class="leadAvatar"><img id="leadImg"></div><div><small>Lead Coach</small><strong id="leadName" style="font-size:1.35rem">Joe</strong></div></div>
+ <div class="stat"><small>Total Time</small><strong id="totalTime">0:00</strong></div><div class="stat"><small>Sections</small><strong id="sectionCount">0</strong></div><div class="stat"><small>Breaks</small><strong id="breakCount">0</strong></div><div class="stat"><small>Rounds</small><strong id="roundCount">0</strong></div>
+ <button class="stat smart btn" id="smartBtn">✦ Fit to Time</button>
+</section>
+<div class="layout">
+ <main class="panel">
+  <div class="panelHead"><div class="eyebrow">Build the Session</div><h2>Everything important stays editable here</h2><p>No section-edit popup. Change category, detail, coach, time, grading mode and rounds directly on the lesson.</p></div>
+  <div class="panelBody">
+   <div class="fields"><div class="field"><label>Lesson name</label><input id="lessonName"></div><div class="field"><label>Overall coach</label><select id="overallCoach"></select></div><div class="field"><label>Target</label><select id="targetTime"><option value="45">45 min</option><option value="60">60 min</option><option value="75">75 min</option><option value="90">90 min</option><option value="120">120 min</option><option value="manual">Manual</option></select></div></div>
+   <div class="field" style="margin-top:10px"><label>Lesson notes / briefing</label><textarea id="lessonNotes" placeholder="Focus, equipment, safety, coaching reminders…"></textarea></div>
+   <div class="toolbar"><div><div class="eyebrow">Lesson Structure</div><strong>Tap a technique field for Quick Type. Tap Rounds to programme work/rest rounds.</strong></div><div class="actions"><button class="btn small red" id="addSectionBtn">+ Section</button><button class="btn small" id="addBreakBtn">+ Break</button><button class="btn small" id="addIntervalBtn">+ Interval</button><button class="btn small" id="reviewBtn">Review & Start</button></div></div>
+   <div class="sections" id="sections"></div>
+  </div>
+ </main>
+ <aside class="side">
+  <section class="panel"><div class="panelHead"><div class="eyebrow">Coach Squad</div><h2>8 coaches restored</h2><p>Head-and-shoulder portraits here; full-body characters in timer mode.</p></div><div class="panelBody"><div class="coachGrid" id="coachGrid"></div></div></section>
+  <section class="panel"><div class="panelHead"><div class="eyebrow">Floor workflow</div><h2>Simple by default</h2></div><div class="panelBody"><div class="tip"><strong>Standard section</strong>Edit category, drill, coach and time inline.</div><div class="tip"><strong>Grading section</strong>Toggle only that section, select belt and syllabus technique.</div><div class="tip"><strong>Rounds</strong>Optional work/rest structure with bell transitions.</div><div class="tip"><strong>In class</strong>Tap timer screen to hide/show controls. Edit returns to this same planner.</div></div></section>
+ </aside>
+</div>
 </div>
 
-<div id="quickChips" class="quickChips"><div class="quickWrap"><div class="quickTop"><strong>Quick technique input</strong><button class="iconBtn" id="closeChipsBtn" style="height:40px;min-width:40px;padding:0 12px">Close</button></div><div id="chipsRow" class="chipRow"></div></div></div>
+<!-- Modals -->
+<div class="modal" id="coachModal"><div class="modalBox"><div class="modalHead"><h3>Select Coach</h3><button class="btn small" data-close="coachModal">Close</button></div><div class="modalBody"><div class="coachPickGrid" id="coachPicker"></div></div></div></div>
+<div class="modal" id="savedModal"><div class="modalBox"><div class="modalHead"><h3>Saved Lessons</h3><button class="btn small" data-close="savedModal">Close</button></div><div class="modalBody"><div class="saved" id="savedList"></div></div></div></div>
+<div class="modal" id="libraryModal"><div class="modalBox"><div class="modalHead"><div><div class="eyebrow">Library</div><h3>Drills & grading syllabus</h3></div><div class="actions"><button class="btn small red" id="saveLibraryTop">Save changes</button><button class="btn small" data-close="libraryModal">Close</button></div></div><div class="modalBody"><div class="tabs"><button class="tab active" data-lib="grading">Grading syllabus</button><button class="tab" data-lib="quick">Quick Type</button></div><div id="gradingPane" class="libraryGrid"><div class="beltList" id="beltList"></div><div><div class="field"><label>Techniques — one per line</label><textarea id="beltText" style="min-height:360px"></textarea></div><p style="color:var(--muted);font-size:.84rem">These populate the technique list when an individual lesson section is switched to grading mode.</p></div></div><div id="quickPane" class="hidden"><div class="field"><label>Quick Type words / phrases — one per line</label><textarea id="quickText" style="min-height:320px"></textarea></div><p style="color:var(--muted);font-size:.84rem">The first 14 checked/visible items can be changed in Settings without altering lesson text already entered.</p></div></div><div class="modalFoot"><button class="btn red" id="saveLibraryBottom">Save changes</button></div></div></div>
+<div class="modal" id="timetableModal"><div class="modalBox"><div class="modalHead"><h3>Weekly Timetable</h3><button class="btn small" data-close="timetableModal">Close</button></div><div class="modalBody"><div class="timetable" id="timetable"></div></div></div></div>
+<div class="modal" id="settingsModal"><div class="modalBox"><div class="modalHead"><h3>Settings</h3><button class="btn small" data-close="settingsModal">Close</button></div><div class="modalBody"><div class="settings"><div class="settingsGroup"><strong>Planner</strong><div class="setting"><span>Dark appearance</span><input class="toggle" type="checkbox" id="darkToggle"></div><div class="setting"><span>Auto-add break between work sections</span><input class="toggle" type="checkbox" id="autoBreakToggle"></div><div class="setting"><span>Pause timer if app loses focus</span><input class="toggle" type="checkbox" id="pauseBlurToggle"></div></div><div class="settingsGroup"><strong>Sounds</strong><div class="setting"><span>Sounds on</span><input class="toggle" type="checkbox" id="soundToggle"></div><div class="setting"><span>Start / end bell</span><input class="toggle" type="checkbox" id="sectionSoundToggle"></div><div class="setting"><span>10-second klaxon</span><input class="toggle" type="checkbox" id="klaxonToggle"></div><div class="setting"><span>Round sound</span><select class="control" id="soundType" style="max-width:150px"><option value="bell">Boxing bell</option><option value="bleep">Bleep</option></select></div></div><div class="settingsGroup"><strong>Quick Type visibility</strong><div id="quickSettings" class="chips" style="margin-top:9px"></div></div><div class="settingsGroup"><strong>Help</strong><button class="btn" id="tutorialBtn">Open tutorial</button><p style="color:var(--muted);font-size:.82rem">Tutorial stays inside Settings, as requested.</p></div></div></div></div></div>
+<div class="modal" id="tutorialModal"><div class="modalBox"><div class="modalHead"><h3>FKBC Coach Console — quick guide</h3><button class="btn small" data-close="tutorialModal">Close</button></div><div class="modalBody"><div class="tip"><strong>1. Build</strong>Add work, break or interval sections. All main fields edit directly on the planner.</div><div class="tip"><strong>2. Coaches</strong>Tap the coach thumbnail in a section. Overall coach updates new work sections.</div><div class="tip"><strong>3. Rounds</strong>Open Rounds on a section to set work rounds, rest/changeover and final-rest behaviour.</div><div class="tip"><strong>4. Grading</strong>Toggle Grading on only the section you need, then pick a belt and syllabus technique.</div><div class="tip"><strong>5. Quick Type</strong>Focus any technique/detail box. The chip tray tracks the visible viewport so it remains above the iPad keyboard.</div><div class="tip"><strong>6. Timer</strong>Tap the main timer stage to hide/show chrome. Full-body coach art slides in without covering the core timer text.</div><div class="tip"><strong>7. Live editing</strong>Choose Edit during the lesson, change the planner, then Resume. The remaining time is retained.</div></div></div></div>
+<div class="modal" id="reviewModal"><div class="modalBox"><div class="modalHead"><h3 id="reviewTitle">Session Brief</h3><button class="btn small" data-close="reviewModal">Back</button></div><div class="modalBody" id="reviewBody"></div><div class="modalFoot"><button class="btn red" id="startBtn">Start Lesson</button></div></div></div>
+<div class="modal" id="editModal"><div class="modalBox" style="width:min(580px,100%)"><div class="modalHead"><h3>Edit lesson while running</h3><button class="btn small" data-close="editModal">Cancel</button></div><div class="modalBody"><p style="color:var(--muted)">Choose whether the timer pauses while you edit or continues in the background.</p><div class="actions"><button class="btn" id="editPause">Pause timer</button><button class="btn red" id="editKeep">Keep running</button></div></div></div></div>
 
-<div id="coachModal" class="modal"><div class="modalBox"><div class="modalHead"><div><div class="tileLabel">Coach Selection</div><h3>Select a coach</h3></div><button class="iconBtn" data-close="coachModal">Close</button></div><div class="modalBody"><div id="coachPicker" class="coachPicker"></div></div></div></div>
+<!-- Quick type floating tray -->
+<div class="quickTray" id="quickTray"><div class="quickInner"><div class="quickHead"><div><strong>Quick Type</strong> <small>tap to append</small></div><div class="actions"><button class="chip manage" id="manageQuick">Manage</button><button class="chip" id="closeQuick">×</button></div></div><div class="chips" id="quickChips"></div></div></div>
 
-<div id="settingsModal" class="modal"><div class="modalBox"><div class="modalHead"><div><div class="tileLabel">Settings</div><h3>Appearance, planner and timer</h3></div><button class="iconBtn" data-close="settingsModal">Close</button></div><div class="modalBody"><div class="settingsGrid"><div class="settingGroup"><strong>Appearance</strong><div class="settingRow"><span>Light / dark mode</span><button class="iconBtn" id="themeToggleBtn">Toggle theme</button></div><div class="settingRow"><span>Auto-add a break before each new section</span><input id="autoBreakSwitch" class="switch" type="checkbox"></div><div class="settingRow"><span>Remember timer edit choice</span><input id="rememberEditSwitch" class="switch" type="checkbox"></div></div><div class="settingGroup"><strong>Audio & Timer</strong><div class="settingRow"><span>All sounds on / off</span><input id="allSoundsSwitch" class="switch" type="checkbox"></div><div class="settingRow"><span>Section start sound</span><input id="startSoundSwitch" class="switch" type="checkbox"></div><div class="settingRow"><span>Section end sound</span><input id="endSoundSwitch" class="switch" type="checkbox"></div><div class="settingRow"><span>Timer sound</span><select id="timerSoundType"><option value="bell">Boxing bell</option><option value="bleep">Bleep</option></select></div><div class="settingRow"><span>Klaxon 10s warning</span><input id="klaxonSwitch" class="switch" type="checkbox"></div></div></div>
-<div class="settingGroup" style="margin-top:18px"><strong>Quick technique chips shown when typing</strong><div id="chipToggleRow" class="chipRow" style="margin-top:12px"></div></div></div><div class="modalFoot"><button class="iconBtn" data-close="settingsModal">Done</button></div></div></div>
-
-<div id="savedModal" class="modal"><div class="modalBox"><div class="modalHead"><div><div class="tileLabel">Saved Lessons</div><h3>Load or manage saved plans</h3></div><button class="iconBtn" data-close="savedModal">Close</button></div><div class="modalBody"><div id="savedList" class="savedList"></div></div></div></div>
-
-<div id="libraryModal" class="modal"><div class="modalBox"><div class="modalHead"><div><div class="tileLabel">Library</div><h3>Drills, grading syllabus and quick text</h3></div><button class="iconBtn" data-close="libraryModal">Close</button></div><div class="modalBody"><div class="tabs"><button class="tabBtn active" data-tab="gradingTab">Grading Library</button><button class="tabBtn" data-tab="templatesTab">Saved Templates</button></div><div id="gradingTab"><div class="beltGrid"><div><div class="tabs" id="beltTabs"></div><div class="field"><label>Techniques for selected belt</label><textarea id="beltTechniques" placeholder="One technique or combination per line"></textarea></div><div class="modalFoot" style="position:static;padding:14px 0 0;border:0;background:transparent;justify-content:flex-start"><button class="iconBtn red" id="saveBeltBtn">Save belt techniques</button></div></div><div><div class="itemCard"><strong>Belt order</strong><div id="beltOrderCards" class="libraryBelts" style="margin-top:12px"></div></div><div class="itemCard" style="margin-top:14px"><strong>Quick input words</strong><div class="muted">These are available while typing technique text. You can switch which ones appear in Settings.</div><div class="beltPills" id="quickPreview" style="margin-top:12px"></div></div></div></div></div><div id="templatesTab" class="hidden"><div class="templateList" id="templateList"></div></div></div></div></div>
-
-<div id="timetableModal" class="modal"><div class="modalBox"><div class="modalHead"><div><div class="tileLabel">Timetable</div><h3>Current weekly sessions</h3></div><button class="iconBtn" data-close="timetableModal">Close</button></div><div class="modalBody"><div id="timeTableList" class="timeTableList"></div></div></div></div>
-
-<div id="smartModal" class="modal"><div class="modalBox"><div class="modalHead"><div><div class="tileLabel">Smart Plan</div><h3>Optimise lesson timing</h3></div><button class="iconBtn" data-close="smartModal">Close</button></div><div class="modalBody"><div class="field"><label>Total lesson time</label><select id="smartTotal"><option value="30">30 minutes</option><option value="45" selected>45 minutes</option><option value="60">60 minutes</option><option value="manual">Manual</option></select></div><div class="field" id="manualSmartWrap" style="margin-top:14px;display:none"><label>Manual total minutes</label><input id="manualSmartInput" type="number" min="10" max="180" value="75"></div><div class="itemCard" style="margin-top:14px"><strong>What this does</strong><div class="muted">The app weights warm-ups, technical work, pad work, sparring, conditioning and cool-down blocks sensibly, then distributes times to fit the chosen total while keeping breaks practical.</div></div></div><div class="modalFoot"><button class="iconBtn" data-close="smartModal">Cancel</button><button class="iconBtn red" id="applySmartBtn">Apply plan</button></div></div></div>
-
-<div id="editRunModal" class="modal"><div class="modalBox" style="width:min(560px,100%)"><div class="modalHead"><div><div class="tileLabel">Edit Lesson During Class</div><h3>How would you like to continue?</h3></div><button class="iconBtn" data-close="editRunModal">Close</button></div><div class="modalBody"><div class="settingsGrid" style="grid-template-columns:1fr 1fr"><button class="iconBtn" id="pauseForEditBtn" style="height:120px;flex-direction:column">⏸<strong>Pause timer</strong><span class="muted">Pause while editing.</span></button><button class="iconBtn red" id="keepRunningEditBtn" style="height:120px;flex-direction:column">▶<strong>Keep running</strong><span style="opacity:.85">Edit while timer continues.</span></button></div></div></div></div>
+<!-- Timer -->
+<div class="timerView" id="timerView"><div class="timerStage" id="timerStage"><div class="breakVisual">BREAK</div><div class="timerTop"><div><div class="eyebrow" style="color:#ff8391">Live Session</div><strong id="runLessonName">Kickboxing Class</strong></div><div class="timerBtns"><button class="btn small ghost" id="runSound">🔊 Sound</button><button class="btn small ghost" id="runEdit">✎ Edit</button></div></div><div class="timerMain"><div class="runner" id="runner"><img id="runnerImg"></div><div class="timerCenter"><div class="timerMode" id="runMode">Section 1 / 1</div><div class="timerTitle" id="runTitle">Warm Up</div><div class="timerDetail" id="runDetail">Dynamic movement & mobility</div><div class="clock" id="clock">10:00</div><div class="roundLabel" id="runRound"></div><div class="timerMeta"><div><small>Elapsed</small><strong id="runElapsed">0:00</strong></div><div><small>Remaining</small><strong id="runRemain">10:00</strong></div><div><small>Coach</small><strong id="runCoach">Joe</strong></div></div></div><div class="upNext"><div class="nextCard"><small>Up next</small><div id="nextCard"></div></div><div class="nextCard"><small>Then</small><div id="thenCard"></div></div></div></div><div class="timerBottom"><div class="timerBtns"><button class="btn small ghost" id="prevRun">← Previous</button><button class="btn small ghost" id="minus30">−30s</button><button class="btn small red" id="pauseRun">Pause</button><button class="btn small ghost" id="plus30">+30s</button><button class="btn small ghost" id="nextRun">Next →</button></div><div class="timerBtns"><button class="btn small ghost" id="restartRun">Restart segment</button><button class="btn small red" id="endRun">End Lesson</button></div></div><div class="tapHint">Tap stage to hide / show controls</div><div class="progress"><span id="runProgress"></span></div></div></div>
 
 <script>
-const COACHES = [{"id": "joe", "name": "Joe", "full": "joe-full.png", "avatar": "joe-avatar.png"}, {"id": "jack", "name": "Jack", "full": "jack-full.png", "avatar": "jack-avatar.png"}, {"id": "paul", "name": "Paul", "full": "paul-full.png", "avatar": "paul-avatar.png"}, {"id": "gracie", "name": "Gracie", "full": "gracie-full.png", "avatar": "gracie-avatar.png"}, {"id": "justin", "name": "Justin", "full": "justin-full.png", "avatar": "justin-avatar.png"}, {"id": "john", "name": "Big John", "full": "john-full.png", "avatar": "john-avatar.png"}];
-const BELTS = [
-  {name:'White',color:'#f5f5f5',text:'#111'},
-  {name:'Red',color:'#e5242a',text:'#fff'},
-  {name:'Yellow',color:'#f2c521',text:'#111'},
-  {name:'Orange',color:'#f38a18',text:'#111'},
-  {name:'Green',color:'#17a651',text:'#fff'},
-  {name:'Purple',color:'#8033c8',text:'#fff'},
-  {name:'Blue',color:'#1654d1',text:'#fff'},
-  {name:'Brown',color:'#88502d',text:'#fff'},
-  {name:'Black',color:'#111111',text:'#fff'}
+const COACHES=[
+ {id:'joe',name:'Joe',portrait:'joe-portrait.webp',full:'joe-full.webp'},
+ {id:'jack',name:'Jack',portrait:'jack-portrait.webp',full:'jack-full.webp'},
+ {id:'paul',name:'Paul',portrait:'paul-portrait.webp',full:'paul-full.webp'},
+ {id:'bigjohn',name:'Big John',portrait:'john-portrait.webp',full:'john-full.webp'},
+ {id:'justin',name:'Justin',portrait:'justin-portrait.webp',full:'justin-full.webp'},
+ {id:'gracie',name:'Gracie',portrait:'gracie-portrait.webp',full:'gracie-full.webp'},
+ {id:'john',name:'John',portrait:'john-beard-portrait.webp',full:'john-beard-full.webp'},
+ {id:'eden',name:'Eden',portrait:'eden-portrait.webp',full:'eden-full.webp'}
 ];
-const DEFAULT_GRADING = {
-  White:['Guard stance','Fighting stance','Jab','Cross','Front kick'],
-  Red:['Jab / cross','Lead hook','Rear knee','Round kick body'],
-  Yellow:['Jab / cross / hook','Push kick','Switch knee','Round kick + cross'],
-  Orange:['Slip + counter cross','Teep + cross','Low kick defence','Basic partner drill'],
-  Green:['Jab / cross / hook / cross','Rear roundhouse','Block and return','Pad drill 1'],
-  Purple:['Spinning hook kick','Catch and counter','Kick / punch combination','Sparring drill'],
-  Blue:['Advanced combinations','Counter low kick','Body shot entries','Defence chain'],
-  Brown:['Fight pace combinations','Clinch control drill','Ringcraft / footwork','Pressure sparring'],
-  Black:['Leadership drill','Coaching example combination','Advanced sparring concepts','Assessment round']
+const CATS={
+ 'Warm Up':['On-the-spot aerobic warm-up','Jogging around the mats','Dynamic movement & mobility','Mobility + stretch'],
+ 'Technique':['Boxing combination','Kick technique','Defence + counter','Footwork / movement'],
+ 'Pad Work':['Technique combinations','Demonstration + partner rounds','High-intensity pad rounds','Power / accuracy rounds'],
+ 'Partner Work':['Paired technique work','Reaction drill','Attack / defend drill','Combination exchange'],
+ 'Sparring':['Footwork-focused sparring','Boxing-only sparring','Specific shot setup sparring','Open sparring'],
+ 'Fitness':['Kickboxing conditioning','Shuttle / sprint work','Circuit training','Bag intervals'],
+ 'Cool Down':['Stretch and mobility','Breathing / reset','Recovery mobility'],
+ 'Interval':['Timed interval','Work / rest circuit']
 };
-const DEFAULT_CATEGORIES = {
-  'Warm Up':['Jogging around mats','On-the-spot aerobics','Mobility and stretch','Dynamic movement & mobility'],
-  'Technique':['Boxing combination','Kick technique','Footwork focus','Defence and counter'],
-  'Pad Work':['Combination rounds','Demonstration + 2 x 2 min rounds','High intensity pad rounds','Power / accuracy rounds'],
-  'Partner Work':['Mirroring drill','Touch sparring drill','Reaction drill','Combination practice'],
-  'Conditioning':['Shuttle / circuits','Core and bodyweight','Sprint finisher','Bag conditioning'],
-  'Sparring':['Focused sparring','Boxing only sparring','Shot setup sparring','Open sparring'],
-  'Cool Down':['Stretch and reset','Mobility cool down','Breathing and recovery'],
-  'Interval':['Round work','2 min on / 1 min off','Drill intervals']
-};
-const QUICK_WORDS = ['JAB','CROSS','HOOK','UPPERCUT','BODY SHOT','FRONT KICK','ROUNDHOUSE','SIDE KICK','PUSH KICK','KNEE','SPINNING HOOK KICK','SLIP','PARRY','CHECK','BLOCK','SWITCH','PIVOT','CLINCH','FOOTWORK','SPARRING'];
-const TEMPLATES = {
-  junior:{name:'Junior Class Flow',notes:'Warm-up, short break, pad technique combinations, final high intensity rounds, cool down.',sections:[
-    {kind:'work',grading:false,cat:'Warm Up',detail:'Dynamic movement & mobility',coach:'joe',mins:10},
-    {kind:'break',grading:false,cat:'Break',detail:'Water / reset',coach:'joe',mins:2},
-    {kind:'work',grading:false,cat:'Pad Work',detail:'Demonstration + 2 x 2 min rounds',coach:'joe',mins:20},
-    {kind:'work',grading:false,cat:'Pad Work',detail:'High intensity pad rounds',coach:'jack',mins:10},
-    {kind:'break',grading:false,cat:'Break',detail:'Quick reset',coach:'joe',mins:2},
-    {kind:'work',grading:false,cat:'Cool Down',detail:'Stretch and reset',coach:'gracie',mins:6}
-  ]},
-  adultPads:{name:'Adult Pad Session',notes:'Technical pad focus with build towards high-intensity finish.',sections:[
-    {kind:'work',grading:false,cat:'Warm Up',detail:'Jogging around mats',coach:'gracie',mins:8},
-    {kind:'work',grading:false,cat:'Technique',detail:'Defence and counter',coach:'joe',mins:10},
-    {kind:'work',grading:false,cat:'Pad Work',detail:'Combination rounds',coach:'jack',mins:18},
-    {kind:'work',grading:false,cat:'Pad Work',detail:'High intensity pad rounds',coach:'paul',mins:16},
-    {kind:'break',grading:false,cat:'Break',detail:'Stretch / reset',coach:'joe',mins:3},
-    {kind:'work',grading:false,cat:'Cool Down',detail:'Mobility cool down',coach:'gracie',mins:5}
-  ]},
-  sparring:{name:'Focused Sparring Session',notes:'Warm-up, focused sparring themes, finish with open sparring.',sections:[
-    {kind:'work',grading:false,cat:'Warm Up',detail:'Mobility and stretch',coach:'joe',mins:8},
-    {kind:'work',grading:false,cat:'Technique',detail:'Footwork focus',coach:'john',mins:10},
-    {kind:'work',grading:false,cat:'Sparring',detail:'Focused sparring',coach:'justin',mins:18},
-    {kind:'work',grading:false,cat:'Sparring',detail:'Open sparring',coach:'paul',mins:16},
-    {kind:'work',grading:false,cat:'Cool Down',detail:'Stretch and reset',coach:'gracie',mins:8}
-  ]},
-  ladies:{name:'Ladies Fitness Class',notes:'Energetic fitness-based kickboxing.',sections:[
-    {kind:'work',grading:false,cat:'Warm Up',detail:'On-the-spot aerobics',coach:'gracie',mins:10},
-    {kind:'work',grading:false,cat:'Technique',detail:'Boxing combination',coach:'gracie',mins:12},
-    {kind:'work',grading:false,cat:'Conditioning',detail:'Shuttle / circuits',coach:'jack',mins:16},
-    {kind:'work',grading:false,cat:'Pad Work',detail:'Power / accuracy rounds',coach:'joe',mins:12},
-    {kind:'work',grading:false,cat:'Cool Down',detail:'Breathing and recovery',coach:'gracie',mins:10}
-  ]}
-};
-const TIMETABLE = [
-  {day:'Monday',sessions:['6:30pm – 7:30pm Junior class','7:45pm – 9:45pm Adult class']},
-  {day:'Tuesday',sessions:['6:30pm – 7:30pm Little Warriors']},
-  {day:'Wednesday',sessions:['6:30pm – 7:15pm Junior class','7:30pm – 8:15pm Advanced juniors','8:30pm – 9:15pm Adults class']},
-  {day:'Friday',sessions:['6:30pm – 7:30pm Junior class','7:30pm – 8:30pm Ladies fitness class']}
+const BELTS=[['White','#eeeeee','#111'],['Red','#e21d32','#fff'],['Yellow','#f0c51d','#111'],['Orange','#ef7e17','#111'],['Green','#16a451','#fff'],['Purple','#7a39c4','#fff'],['Blue','#1659d2','#fff'],['Brown','#87502f','#fff'],['Black','#111','#fff']];
+const DEFAULT_SYLLABUS={White:['Guard stance','Jab','Cross','Front kick'],Red:['Jab / cross','Lead hook','Rear roundhouse','Knee strike'],Yellow:['Jab / cross / hook','Push kick','Roundhouse kick','Basic defence'],Orange:['Slip / counter','Kick to punch combination','Low kick defence','Partner timing drill'],Green:['Combination flow','Rear roundhouse','Block and return','Pad sequence'],Purple:['Spinning hook kick','Catch and counter','Advanced combination','Controlled sparring drill'],Blue:['Advanced combinations','Counter low kick','Body-shot entries','Defence chain'],Brown:['Fight-pace combinations','Clinch control','Ringcraft / footwork','Pressure sparring'],Black:['Leadership combination','Advanced sparring concept','Technical assessment round','Coaching demonstration']};
+const DEFAULT_QUICK=['JAB','CROSS','LEAD HOOK','REAR HOOK','UPPERCUT','BODY SHOT','FRONT KICK','ROUNDHOUSE','LOW KICK','SIDE KICK','PUSH KICK','KNEE','ELBOW','SPINNING HOOK KICK','SLIP','PARRY','CHECK','BLOCK','CLINCH','PIVOT','STEP','FEINT'];
+const TIMETABLE=[
+ {day:'Monday',sessions:[['Junior class','18:30–19:30',60],['Adult class','19:45–21:45',120]]},
+ {day:'Tuesday',sessions:[['Little Warriors','18:30–19:30',60]]},
+ {day:'Wednesday',sessions:[['Junior class','18:30–19:15',45],['Advanced juniors','19:30–20:15',45],['Adults class','20:30–21:15',45]]},
+ {day:'Friday',sessions:[['Junior class','18:30–19:30',60],['Ladies fitness','19:30–20:30',60]]}
 ];
-const LS_KEY='fkbc_planner_v19';
-const $=id=>document.getElementById(id);
-const uid=()=>Math.random().toString(36).slice(2,10);
-const coachBy=id=>COACHES.find(c=>c.id===id)||COACHES[0];
-const beltBy=name=>BELTS.find(b=>b.name===name)||BELTS[0];
-
-let state = loadState();
-let activeInputRef = null;
-let timerHandle = null;
-let warningPlayed = false;
-let audioCtx = null;
-
-function loadState(){
-  const saved = localStorage.getItem(LS_KEY);
-  if(saved){ try { const s=JSON.parse(saved); return hydrateState(s); } catch(e){ console.warn(e); } }
-  return hydrateState({theme:'dark',lessonName:'Kickboxing Class',notes:'',overallCoach:'joe',defaultCoach:'joe',settings:{autoBreak:true,allSounds:true,startSound:true,endSound:true,klaxon:true,timerSound:'bell',rememberEditChoice:false,visibleChips:QUICK_WORDS.slice(0,12)},gradingLibrary:DEFAULT_GRADING,savedLessons:[],sections:[makeSection('work')],run:{active:false,index:0,remaining:0,sectionTotal:0,playing:false,editing:false,pausedForEdit:false,editChoice:null,startedAt:0,elapsed:0} });
+const KEY='fkbc_edition9';
+const $=id=>document.getElementById(id); const uid=()=>Math.random().toString(36).slice(2,10); const coach=id=>COACHES.find(c=>c.id===id)||COACHES[0];
+const defSettings={dark:true,autoBreak:true,pauseOnBlur:true,sound:true,sectionSound:true,klaxon:true,soundType:'bell',visibleQuick:DEFAULT_QUICK.slice(0,14)};
+function newWork(cat='Warm Up'){return{id:uid(),kind:'work',grading:false,belt:'White',cat,detail:CATS[cat]?.[0]||'',coach:'joe',durationSec:600,rounds:{enabled:false,count:2,workSec:120,restSec:30,finalRest:false}}}
+function newBreak(){return{id:uid(),kind:'break',grading:false,belt:'White',cat:'Break',detail:'Water / reset / equipment change',coach:null,durationSec:120,rounds:{enabled:false,count:1,workSec:120,restSec:0,finalRest:false}}}
+function newInterval(){let s=newWork('Interval');s.durationSec=120;return s}
+let state=load();
+function load(){try{let x=JSON.parse(localStorage.getItem(KEY));if(x)return hydrate(x)}catch(e){}return hydrate({lessonName:'Kickboxing Class',notes:'',overallCoach:'joe',target:60,sections:[newWork()],saved:[],syllabus:DEFAULT_SYLLABUS,quick:DEFAULT_QUICK,settings:defSettings,selectedBelt:'White',run:null})}
+function hydrate(s){s.settings=Object.assign({},defSettings,s.settings||{});s.saved=s.saved||[];s.syllabus=Object.assign({},DEFAULT_SYLLABUS,s.syllabus||{});s.quick=s.quick||DEFAULT_QUICK.slice();s.sections=(s.sections||[]).map(x=>Object.assign(newWork(),x,{rounds:Object.assign({enabled:false,count:2,workSec:120,restSec:30,finalRest:false},x.rounds||{})}));if(!s.sections.length)s.sections=[newWork()];s.overallCoach=s.overallCoach||'joe';s.lessonName=s.lessonName||'Kickboxing Class';s.notes=s.notes||'';return s}
+function save(){localStorage.setItem(KEY,JSON.stringify(state))}
+function fmt(sec){sec=Math.max(0,Math.round(sec||0));return Math.floor(sec/60)+':'+String(sec%60).padStart(2,'0')}
+function sectionSec(s){if(s.kind==='break')return +s.durationSec||0;if(s.rounds?.enabled){let c=Math.max(1,+s.rounds.count||1),w=Math.max(10,+s.rounds.workSec||120),r=Math.max(0,+s.rounds.restSec||0);return c*w + Math.max(0,c-1)*r + (s.rounds.finalRest?r:0)}return +s.durationSec||0}
+function totalSec(){return state.sections.reduce((a,s)=>a+sectionSec(s),0)}
+function accent(s){if(s.grading){let b=BELTS.find(x=>x[0]===s.belt)||BELTS[0];return b[1]}let m={'Warm Up':'#151d29','Technique':'#ef1c35','Pad Work':'#d11a30','Partner Work':'#33445b','Sparring':'#111','Fitness':'#c20f28','Cool Down':'#596678','Interval':'#3c526d','Break':'#a0a8b3'};return m[s.cat]||'#171f2c'}
+function setDark(){document.body.classList.toggle('dark',!!state.settings.dark);document.querySelector('.logo').src=state.settings.dark?'fkbc-logo-dark.png':'fkbc-logo-light.png'}
+function render(){setDark();renderHeader();renderSections();renderCoachGrid();syncSettings();save()}
+function renderHeader(){let c=coach(state.overallCoach);$('leadImg').src=c.portrait;$('leadName').textContent=c.name;$('totalTime').textContent=fmt(totalSec());$('sectionCount').textContent=state.sections.length;$('breakCount').textContent=state.sections.filter(x=>x.kind==='break').length;$('roundCount').textContent=state.sections.reduce((a,x)=>a+(x.rounds?.enabled?+x.rounds.count||0:0),0);$('lessonName').value=state.lessonName;$('lessonNotes').value=state.notes;$('overallCoach').innerHTML=COACHES.map(x=>`<option value="${x.id}" ${x.id===state.overallCoach?'selected':''}>${x.name}</option>`).join('');$('targetTime').value=state.target==='manual'?'manual':String(state.target||60);$('liveBar').classList.toggle('show',!!state.run?.editing);if(state.run?.editing)$('liveText').textContent=state.run.playing?'Timer continues while you edit.':'Timer paused while you edit.'}
+function options(arr,val){return arr.map(x=>`<option ${x===val?'selected':''}>${x}</option>`).join('')}
+function renderSections(){let el=$('sections');el.innerHTML=state.sections.map((s,i)=>{let c=s.coach?coach(s.coach):null;let b=BELTS.find(x=>x[0]===s.belt)||BELTS[0];let cat=s.kind==='break'?`<input class="select" value="Break" disabled>`:s.grading?`<select class="select belt">${BELTS.map(x=>`<option ${x[0]===s.belt?'selected':''}>${x[0]}</option>`).join('')}</select>`:`<select class="select cat">${options(Object.keys(CATS),s.cat)}</select>`;let detail=s.kind==='break'?`<input class="text detail" value="${esc(s.detail)}">`:s.grading?`<input class="text detail quickInput" list="d_${s.id}" value="${esc(s.detail)}"><datalist id="d_${s.id}">${(state.syllabus[s.belt]||[]).map(x=>`<option value="${esc(x)}"></option>`).join('')}</datalist>`:`<input class="text detail quickInput" list="d_${s.id}" value="${esc(s.detail)}"><datalist id="d_${s.id}">${(CATS[s.cat]||[]).map(x=>`<option value="${esc(x)}"></option>`).join('')}</datalist>`;let coachControl=s.kind==='break'?`<button class="coachBtn" disabled><span>No coach</span></button>`:`<button class="coachBtn pickCoach"><img src="${c.portrait}"><span>${c.name}</span></button>`;let dur=sectionSec(s);let rs=s.rounds?.enabled?`Rounds: ${s.rounds.count} × ${fmt(s.rounds.workSec)}${s.rounds.restSec?` / ${fmt(s.rounds.restSec)} rest`:''}`:`Single block: ${fmt(dur)}`;return `<article class="section ${s.roundsOpen?'roundsOpen':''}" data-id="${s.id}" style="--accent:${accent(s)}"><div class="sectionMain"><div class="num">${i+1}</div><div class="modeWrap"><div class="modeRow"><span class="modeTag">${s.grading?`<span class="beltIcon" style="background:${b[1]}"></span>${s.belt} belt`:(s.kind==='break'?'Break':'Standard')}</span>${s.kind==='break'?'':`<label class="gradeToggle"><input class="grading" type="checkbox" ${s.grading?'checked':''}>Grading</label>`}</div></div><div class="categoryWrap">${cat}</div><div class="detailWrap">${detail}</div><div class="coachWrap"><div class="coachTime">${coachControl}<select class="time">${[1,2,3,4,5,6,8,10,12,15,20,25,30].map(m=>`<option value="${m*60}" ${Math.abs(dur-m*60)<30?'selected':''}>${m}m</option>`).join('')}</select></div></div><div class="rowBtns"><button class="btn small roundsBtn">Rounds</button><button class="btn small addAfter">＋</button><button class="btn small breakAfter">Break</button><button class="btn small up">↑</button><button class="btn small down">↓</button><button class="btn small red del">×</button></div></div><div class="roundsPanel"><div class="roundGrid"><label class="roundStat"><small>Use rounds</small><input class="roundEnabled" type="checkbox" ${s.rounds?.enabled?'checked':''}></label><label class="roundStat"><small>Rounds</small><input class="roundCountInp" type="number" min="1" max="20" value="${s.rounds?.count||2}"></label><label class="roundStat"><small>Work seconds</small><input class="workSec" type="number" min="10" max="900" step="10" value="${s.rounds?.workSec||120}"></label><label class="roundStat"><small>Rest / changeover</small><input class="restSec" type="number" min="0" max="300" step="5" value="${s.rounds?.restSec||30}"></label><label class="roundStat"><small>Final rest</small><select class="finalRest"><option value="0" ${!s.rounds?.finalRest?'selected':''}>No</option><option value="1" ${s.rounds?.finalRest?'selected':''}>Yes</option></select></label></div><div class="roundSummary">${rs}. Timer rings on every work/rest transition; final rest prevents an extra changeover only when you intentionally programme one.</div></div></article>`}).join('');
+ el.querySelectorAll('.section').forEach(card=>wireSection(card))
 }
-function hydrateState(s){
-  s.theme ||= 'dark'; s.lessonName ||= 'Kickboxing Class'; s.notes ||= ''; s.overallCoach ||= 'joe'; s.defaultCoach ||= 'joe';
-  s.settings = Object.assign({autoBreak:true,allSounds:true,startSound:true,endSound:true,klaxon:true,timerSound:'bell',rememberEditChoice:false,visibleChips:QUICK_WORDS.slice(0,12)}, s.settings||{});
-  s.gradingLibrary = Object.assign(JSON.parse(JSON.stringify(DEFAULT_GRADING)), s.gradingLibrary||{});
-  s.savedLessons ||= []; s.sections = (s.sections||[]).map(x=>Object.assign(makeSection(x.kind||'work'), x)); if(!s.sections.length) s.sections=[makeSection('work')];
-  s.run = Object.assign({active:false,index:0,remaining:0,sectionTotal:0,playing:false,editing:false,pausedForEdit:false,editChoice:null,startedAt:0,elapsed:0}, s.run||{});
-  return s;
-}
-function persist(){ localStorage.setItem(LS_KEY, JSON.stringify(state)); }
-function makeSection(kind='work'){
-  return {id:uid(), kind, grading:false, cat: kind==='interval' ? 'Interval' : (kind==='break' ? 'Break' : 'Warm Up'), detail: kind==='break' ? 'Water / reset' : (kind==='interval' ? 'Round work' : 'Dynamic movement & mobility'), belt:'White', technique:'', coach:'joe', mins:kind==='break'?2:(kind==='interval'?2:6)};
-}
-function fmt(mins){ const m=Math.floor(mins/60); const s=mins%60; return m+':'+String(s).padStart(2,'0'); }
-function totalMins(){ return state.sections.reduce((a,s)=>a + (+s.mins||0), 0); }
-function workSections(){ return state.sections.filter(s=>s.kind!=='break'); }
-function setTheme(theme){ state.theme=theme; document.body.classList.toggle('dark', theme==='dark'); $('headerLogo').src = theme==='dark' ? 'logo-dark.png' : 'logo-light.png'; persist(); }
-function renderHeaderSummary(){
-  const c=coachBy(state.defaultCoach); $('summaryCoachImg').src=c.avatar; $('summaryCoachName').textContent=c.name;
-  $('sumTime').textContent = fmt(totalMins());
-  $('sumSections').textContent = state.sections.length;
-  $('sumBreaks').textContent = state.sections.filter(s=>s.kind==='break').length;
-  const hasGrading = state.sections.some(s=>s.grading), hasStandard = state.sections.some(s=>!s.grading && s.kind!=='break');
-  $('sumModes').textContent = hasGrading && hasStandard ? 'Mixed' : hasGrading ? 'Grading' : 'Standard';
-  $('overallTime').value = fmt(totalMins());
-  $('lessonName').value = state.lessonName;
-  $('lessonNotes').value = state.notes;
-  $('overallCoach').innerHTML = COACHES.map(c=>`<option value="${c.id}" ${c.id===state.overallCoach?'selected':''}>${c.name}</option>`).join('');
-  $('liveRibbon').classList.toggle('show', state.run.active && state.run.editing);
-  $('liveRibbonText').textContent = state.run.playing ? 'The timer is running in the background.' : 'Timer paused while you adjust the lesson.';
-}
-function categoryColor(section){
-  if(section.grading) return beltBy(section.belt).color;
-  const map = {'Warm Up':'#11161d','Technique':'#d7142e','Pad Work':'#10141b','Partner Work':'#273347','Conditioning':'#ba1328','Sparring':'#0d1219','Cool Down':'#606b7b','Interval':'#405467','Break':'#a5acb6'};
-  return map[section.cat] || '#10161d';
-}
-function textColorFor(section){ if(section.grading) return beltBy(section.belt).text; return '#fff'; }
-function beltIconSvg(color='#fff', stroke='#000'){ return `data:image/svg+xml;utf8,${encodeURIComponent(`<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 88 28'><path d='M2 12 L32 8 L44 14 L32 20 L2 16 Z' fill='${color}' stroke='${stroke}' stroke-width='1.2'/><circle cx='43.5' cy='14' r='4.8' fill='${color}' stroke='${stroke}' stroke-width='1.2'/><path d='M85.5 12 L56 8 L44 14 L56 20 L85.5 16 Z' fill='${color}' stroke='${stroke}' stroke-width='1.2'/></svg>`)}`; }
-function detailOptions(cat){ return DEFAULT_CATEGORIES[cat] || ['General drill']; }
-function renderSections(){
-  $('sectionList').innerHTML = state.sections.map((s,i)=>{
-    const c=coachBy(s.coach); const bar=categoryColor(s); const t=textColorFor(s); const breakCard=s.kind==='break';
-    const infoLabel = breakCard ? 'Break' : s.grading ? s.belt + ' belt' : s.cat;
-    const infoTitle = breakCard ? 'Recovery' : s.grading ? (s.technique || 'Grading technique') : (s.detail || 'Session block');
-    const titleColor = (s.grading && beltBy(s.belt).text==='#111') ? '#111' : t;
-    let modePill = `<div class="modePill" style="background:${breakCard?'#eef2f6':(s.grading?beltBy(s.belt).color+'22':'#eef2f6')};color:${breakCard?'#4a5563':(s.grading?beltBy(s.belt).text:'#425062')}">${s.grading?'<img src="'+beltIconSvg(beltBy(s.belt).color, beltBy(s.belt).text==='#111' ? '#333':'#fff')+'" alt="" style="width:38px;height:12px">':'🥊'}${s.grading?'Grading mode':'Standard mode'}</div>`;
-    let catControl = breakCard ? `<input class="catSelect" value="Break" disabled>` : s.grading ? `<select class="beltSelect">${BELTS.map(b=>`<option value="${b.name}" ${b.name===s.belt?'selected':''}>${b.name} Belt</option>`).join('')}</select>` : `<select class="catSelect">${Object.keys(DEFAULT_CATEGORIES).filter(x=>x!=='Interval').map(cat=>`<option value="${cat}" ${cat===s.cat?'selected':''}>${cat}</option>`).join('')}</select>`;
-    let detailControl = breakCard ? `<input class="detailInput" value="${s.detail}" placeholder="Break detail">` : s.grading ? `<input class="detailInput techniqueInput" value="${s.technique||s.detail||''}" placeholder="Technique or combination" list="beltList_${s.id}"><datalist id="beltList_${s.id}">${(state.gradingLibrary[s.belt]||[]).map(v=>`<option value="${v}"></option>`).join('')}</datalist>` : `<input class="detailInput techniqueInput" value="${s.detail}" placeholder="Activity / drill" list="catList_${s.id}"><datalist id="catList_${s.id}">${detailOptions(s.cat).map(v=>`<option value="${v}"></option>`).join('')}</datalist>`;
-    let coachBtn = breakCard ? `<button class="coachBtn" disabled><div class="name">No coach</div></button>` : `<button class="coachBtn pickCoach"><img src="${c.avatar}" alt="${c.name}"><span class="name">${c.name}</span></button>`;
-    const breakDisabled = breakCard ? 'disabled' : '';
-    return `<div class="sectionCard ${breakCard?'breakCard':''}" data-id="${s.id}" style="--barColor:${bar}"><div class="sectionInner">
-      <div class="numBadge">${i+1}</div>
-      <div class="sectionCol modeWrap">
-        ${modePill}
-        <div class="sectionTitleRow"><div class="titleStack"><small style="color:${titleColor==='#111'?'#66717e':'#8993a0'}">${infoLabel}</small><strong style="color:${titleColor}">${infoTitle}</strong></div><label class="inlineToggle" ${breakCard?'style="opacity:.45"':''}><input type="checkbox" class="gradingSwitch" ${s.grading?'checked':''} ${breakDisabled}> grading</label></div>
-      </div>
-      <div class="sectionCol catWrap">${catControl}</div>
-      <div class="sectionCol detailWrap">${detailControl}</div>
-      <div class="sectionCol coachWrap"><div class="coachTimeWrap">${coachBtn}<select class="timeSel">${[1,2,3,4,5,6,8,10,12,15,18,20,25,30].map(m=>`<option value="${m}" ${+m===+s.mins?'selected':''}>${m} min</option>`).join('')}</select></div></div>
-      <div class="sectionActions"><button class="iconBtn insertAfter" title="Add section after">＋</button><button class="iconBtn breakAfter" title="Insert break after">Break</button><button class="iconBtn moveUp" title="Move up">↑</button><button class="iconBtn moveDown" title="Move down">↓</button><button class="iconBtn red remove" title="Remove">×</button></div>
-    </div></div>`;
-  }).join('');
-
-  [...document.querySelectorAll('.sectionCard')].forEach(card=>{
-    const id=card.dataset.id; const s=state.sections.find(x=>x.id===id); if(!s) return;
-    card.querySelector('.gradingSwitch')?.addEventListener('change',e=>{ if(s.kind==='break') return; s.grading=e.target.checked; if(s.grading){ s.belt ||= 'White'; s.technique ||= state.gradingLibrary[s.belt]?.[0]||''; } renderSections(); persist(); });
-    card.querySelector('.catSelect')?.addEventListener('change',e=>{ s.cat=e.target.value; s.detail = detailOptions(s.cat)[0] || ''; renderSections(); persist(); });
-    card.querySelector('.beltSelect')?.addEventListener('change',e=>{ s.belt=e.target.value; if(!state.gradingLibrary[s.belt].includes(s.technique)) s.technique = state.gradingLibrary[s.belt][0] || s.technique || ''; renderSections(); persist(); });
-    card.querySelector('.detailInput')?.addEventListener('input',e=>{ if(s.grading){ s.technique=e.target.value; s.detail=e.target.value; } else s.detail=e.target.value; persist(); renderHeaderSummary(); });
-    card.querySelector('.detailInput')?.addEventListener('focus',e=>openQuickChips(id, e.target));
-    card.querySelector('.timeSel')?.addEventListener('change',e=>{ s.mins=+e.target.value; renderHeaderSummary(); persist(); });
-    card.querySelector('.pickCoach')?.addEventListener('click',()=>openCoachPicker(id));
-    card.querySelector('.insertAfter').addEventListener('click',()=>insertSectionAfter(id,'work'));
-    card.querySelector('.breakAfter').addEventListener('click',()=>insertBreakAfter(id));
-    card.querySelector('.moveUp').addEventListener('click',()=>moveSection(id,-1));
-    card.querySelector('.moveDown').addEventListener('click',()=>moveSection(id,1));
-    card.querySelector('.remove').addEventListener('click',()=>removeSection(id));
-  });
-  renderHeaderSummary();
-}
-function renderSquad(){ $('squadGrid').innerHTML = COACHES.map(c=>`<div class="squadCard"><img src="${c.avatar}" alt="${c.name}"><strong>${c.name}</strong></div>`).join(''); }
-function renderSavedLessons(){
-  const wrap=$('savedList');
-  if(!state.savedLessons.length){ wrap.innerHTML='<div class="itemCard">No saved lessons yet.</div>'; return; }
-  wrap.innerHTML = state.savedLessons.map((l,i)=>`<div class="itemCard"><div style="display:flex;justify-content:space-between;gap:12px;align-items:flex-start"><div><strong>${l.name}</strong><div class="muted">${fmt(l.total)} • ${l.sections.length} sections</div><div class="muted">${l.notes||''}</div></div><div style="display:flex;gap:8px;flex-wrap:wrap"><button class="iconBtn loadSave" data-index="${i}">Load</button><button class="iconBtn red delSave" data-index="${i}">Delete</button></div></div></div>`).join('');
-  wrap.querySelectorAll('.loadSave').forEach(b=>b.onclick=()=>loadSaved(+b.dataset.index));
-  wrap.querySelectorAll('.delSave').forEach(b=>b.onclick=()=>{state.savedLessons.splice(+b.dataset.index,1); persist(); renderSavedLessons();});
-}
-function renderTimetable(){ $('timeTableList').innerHTML = TIMETABLE.map(d=>`<div class="itemCard"><strong>${d.day}</strong><div class="muted" style="margin-top:6px">${d.sessions.map(x=>'<div>'+x+'</div>').join('')}</div></div>`).join(''); }
-function renderLibrary(){
-  $('beltTabs').innerHTML = BELTS.map((b,i)=>`<button class="tabBtn ${(state.libraryBelt||'White')===b.name?'active':''}" data-belt="${b.name}">${b.name}</button>`).join('');
-  $('beltTabs').querySelectorAll('button').forEach(b=>b.onclick=()=>{ state.libraryBelt=b.dataset.belt; renderLibrary(); });
-  const belt = state.libraryBelt || 'White';
-  $('beltTechniques').value = (state.gradingLibrary[belt]||[]).join('\n');
-  $('beltOrderCards').innerHTML = BELTS.map(b=>`<div class="beltTag" style="background:${b.color};color:${b.text}"><img src="${beltIconSvg(b.color,b.text==='#111' ? '#333':'#fff')}" alt="" style="width:32px;height:12px">${b.name}</div>`).join('');
-  $('quickPreview').innerHTML = QUICK_WORDS.map(w=>`<span class="beltTag">${w}</span>`).join('');
-  $('templateList').innerHTML = Object.entries(TEMPLATES).map(([k,t])=>`<div class="itemCard"><strong>${t.name}</strong><div class="muted">${t.notes}</div><div style="margin-top:10px"><button class="iconBtn loadTemplate" data-key="${k}">Load template</button></div></div>`).join('');
-  $('templateList').querySelectorAll('.loadTemplate').forEach(b=>b.onclick=()=>{ loadTemplate(b.dataset.key); closeModal('libraryModal'); });
-}
-function renderChipSettings(){
-  $('chipsRow').innerHTML = state.settings.visibleChips.map(w=>`<button class="chip">${w}</button>`).join('');
-  $('chipToggleRow').innerHTML = QUICK_WORDS.map(w=>`<button class="chip ${state.settings.visibleChips.includes(w)?'active':''}" data-word="${w}">${w}</button>`).join('');
-  $('chipToggleRow').querySelectorAll('.chip').forEach(ch=>ch.onclick=()=>toggleChipWord(ch.dataset.word));
-}
-function openQuickChips(sectionId, input){ activeInputRef = {sectionId, input}; $('quickChips').classList.add('show'); renderChipSettings(); }
-function closeQuickChips(){ $('quickChips').classList.remove('show'); activeInputRef = null; }
-function toggleChipWord(word){
-  const arr=state.settings.visibleChips;
-  if(arr.includes(word)) state.settings.visibleChips = arr.filter(x=>x!==word);
-  else state.settings.visibleChips = [...arr, word].slice(-14);
-  persist(); renderChipSettings();
-}
-function insertChip(word){ if(!activeInputRef || !activeInputRef.input) return; const inp=activeInputRef.input; const start=inp.selectionStart||inp.value.length; const end=inp.selectionEnd||inp.value.length; const prefix = inp.value.slice(0,start); const suffix = inp.value.slice(end); const joiner = prefix && !prefix.endsWith(' ') && !prefix.endsWith('/') ? ' ' : ''; inp.value = prefix + joiner + word + ' ' + suffix; inp.focus(); const pos=(prefix+joiner+word+' ').length; inp.setSelectionRange(pos,pos); inp.dispatchEvent(new Event('input', {bubbles:true})); }
-function openModal(id){ $(id).classList.add('show'); }
-function closeModal(id){ $(id).classList.remove('show'); }
-function insertSectionAfter(afterId, kind='work'){
-  const idx = afterId ? state.sections.findIndex(s=>s.id===afterId) : state.sections.length-1;
-  const sec = makeSection(kind==='break' ? 'break' : kind==='interval' ? 'interval' : 'work');
-  sec.coach = state.defaultCoach;
-  state.sections.splice(idx+1,0,sec);
-  renderSections(); persist();
-}
-function insertBreakAfter(afterId){ const idx=state.sections.findIndex(s=>s.id===afterId); if(idx<0) return; state.sections.splice(idx+1,0,makeSection('break')); renderSections(); persist(); }
-function moveSection(id, dir){ const idx=state.sections.findIndex(s=>s.id===id); const ni=idx+dir; if(idx<0||ni<0||ni>=state.sections.length) return; const [x]=state.sections.splice(idx,1); state.sections.splice(ni,0,x); renderSections(); persist(); }
-function removeSection(id){ if(state.sections.length===1){ state.sections=[makeSection('work')]; } else state.sections = state.sections.filter(s=>s.id!==id); renderSections(); persist(); }
-function newLesson(){ state.lessonName='Kickboxing Class'; state.notes=''; state.overallCoach=state.defaultCoach; state.sections=[makeSection('work')]; state.run=hydrateState({}).run; renderAll(); persist(); }
-function loadTemplate(key){ const t=TEMPLATES[key]; if(!t) return; state.lessonName=t.name; state.notes=t.notes; state.sections=t.sections.map(s=>Object.assign(makeSection(s.kind||'work'), JSON.parse(JSON.stringify(s)), {id:uid()})); renderAll(); persist(); }
-function addAutoBreaksIfNeeded(){
-  if(!state.settings.autoBreak) return;
-  const rebuilt=[];
-  state.sections.forEach((s,i)=>{ rebuilt.push(s); if(i < state.sections.length-1 && s.kind!=='break' && state.sections[i+1].kind!=='break') rebuilt.push(makeSection('break')); });
-  state.sections=rebuilt;
-}
-function applySmartPlan(total){
-  const sections=state.sections.filter(s=>s.kind!=='break');
-  if(!sections.length) return;
-  const weights = sections.map(s=>{ if(s.grading) return 1.1; const map={'Warm Up':1.0,'Technique':1.25,'Pad Work':1.4,'Partner Work':1.15,'Conditioning':1.1,'Sparring':1.35,'Cool Down':0.8,'Interval':1.0}; return map[s.cat]||1; });
-  const breakCount = state.sections.filter(s=>s.kind==='break').length || (state.settings.autoBreak ? Math.max(1, Math.floor(sections.length/3)) : 0);
-  const breakTotal = breakCount*2;
-  const targetWork = Math.max(8, total - breakTotal);
-  const weightSum = weights.reduce((a,b)=>a+b,0);
-  let mins = weights.map(w=>Math.max(2, Math.round(targetWork * (w/weightSum))));
-  let diff = targetWork - mins.reduce((a,b)=>a+b,0);
-  let idx=0; while(diff!==0 && mins.length){ mins[idx%mins.length] += diff>0?1:-1; diff += diff>0?-1:1; idx++; if(mins[idx%mins.length]<2) mins[idx%mins.length]=2; }
-  let wi=0; state.sections = state.sections.map(s=>{ let n={...s}; if(s.kind==='break') n.mins=2; else n.mins=mins[wi++]; return n; });
-  renderAll(); persist();
-}
-function saveCurrentLesson(){
-  const item={name:state.lessonName||'Untitled Lesson', notes:state.notes, total:totalMins(), sections:JSON.parse(JSON.stringify(state.sections)), overallCoach:state.overallCoach, savedAt:Date.now()};
-  state.savedLessons.unshift(item); state.savedLessons=state.savedLessons.slice(0,20); persist(); renderSavedLessons(); openModal('savedModal');
-}
-function loadSaved(index){ const l=state.savedLessons[index]; if(!l) return; state.lessonName=l.name; state.notes=l.notes; state.overallCoach=l.overallCoach || state.defaultCoach; state.sections=l.sections.map(s=>Object.assign(makeSection(s.kind||'work'), JSON.parse(JSON.stringify(s)), {id:uid()})); renderAll(); persist(); closeModal('savedModal'); }
-function openCoachPicker(sectionId){ state.pickingCoachFor=sectionId; $('coachPicker').innerHTML = COACHES.map(c=>`<button class="coachPick" data-id="${c.id}"><img src="${c.avatar}" alt="${c.name}"><strong>${c.name}</strong></button>`).join(''); $('coachPicker').querySelectorAll('.coachPick').forEach(b=>b.onclick=()=>{ const target = state.sections.find(s=>s.id===state.pickingCoachFor); if(target) target.coach=b.dataset.id; closeModal('coachModal'); renderSections(); persist(); }); openModal('coachModal'); }
-function openSaved(){ renderSavedLessons(); openModal('savedModal'); }
-function openLibrary(){ renderLibrary(); openModal('libraryModal'); }
-function openTimetable(){ renderTimetable(); openModal('timetableModal'); }
-function updateInputsFromState(){ $('lessonName').value=state.lessonName; $('lessonNotes').value=state.notes; }
-function renderAll(){ setTheme(state.theme); updateInputsFromState(); renderSquad(); renderSections(); renderSavedLessons(); renderTimetable(); renderLibrary(); renderChipSettings(); syncSettings(); }
-
-function syncSettings(){ $('autoBreakSwitch').checked=!!state.settings.autoBreak; $('allSoundsSwitch').checked=!!state.settings.allSounds; $('startSoundSwitch').checked=!!state.settings.startSound; $('endSoundSwitch').checked=!!state.settings.endSound; $('klaxonSwitch').checked=!!state.settings.klaxon; $('timerSoundType').value=state.settings.timerSound; $('rememberEditSwitch').checked=!!state.settings.rememberEditChoice; $('timerSoundBtn').textContent = state.settings.allSounds ? '🔊 Sound On' : '🔇 Sound Off'; }
-
-function ensureAudio(){ if(!audioCtx) audioCtx = new (window.AudioContext||window.webkitAudioContext)(); if(audioCtx.state==='suspended') audioCtx.resume(); return audioCtx; }
-function tone(freq, start, dur, type='sine', gain=0.06){ const ctx=ensureAudio(); const osc=ctx.createOscillator(); const g=ctx.createGain(); osc.type=type; osc.frequency.setValueAtTime(freq,start); g.gain.setValueAtTime(0.0001,start); g.gain.exponentialRampToValueAtTime(gain,start+.01); g.gain.exponentialRampToValueAtTime(0.0001,start+dur); osc.connect(g).connect(ctx.destination); osc.start(start); osc.stop(start+dur+.05); }
-function bellSound(){ if(!state.settings.allSounds) return; const ctx=ensureAudio(); const t=ctx.currentTime; [660,990,1320].forEach((f,i)=>tone(f,t+i*.04,.45,'triangle',.06)); [520,780].forEach((f,i)=>tone(f,t+.18+i*.06,.8,'sine',.035)); }
-function bleepSound(){ if(!state.settings.allSounds) return; const ctx=ensureAudio(); const t=ctx.currentTime; tone(880,t,.12,'square',.04); tone(1175,t+.14,.12,'square',.03); }
-function klaxonSound(){ if(!state.settings.allSounds) return; const ctx=ensureAudio(); const t=ctx.currentTime; for(let i=0;i<4;i++){ tone(440,t+i*.18,.12,'sawtooth',.05); tone(590,t+i*.18,.12,'sawtooth',.04); } }
-function playSectionStart(){ if(state.settings.startSound) (state.settings.timerSound==='bell'?bellSound:bleepSound)(); }
-function playSectionEnd(){ if(state.settings.endSound) (state.settings.timerSound==='bell'?bellSound:bleepSound)(); }
-
-function currentSection(){ return state.sections[state.run.index]; }
-function buildRunFromPlanner(){
-  if(!state.sections.length) return false;
-  state.run.active=true; state.run.index=0; state.run.sectionTotal=state.sections[0].mins*60; state.run.remaining=state.run.sectionTotal; state.run.playing=true; state.run.editing=false; state.run.elapsed=0; state.run.startedAt=Date.now(); warningPlayed=false; persist(); return true;
-}
-function startLesson(){ if(!buildRunFromPlanner()) return; $('plannerView').classList.add('hidden'); $('timerView').classList.add('show'); renderTimer(); playSectionStart(); beginTick(); }
-function beginTick(){ stopTick(); timerHandle=setInterval(()=>tick(),1000); }
-function stopTick(){ if(timerHandle) clearInterval(timerHandle); timerHandle=null; }
-function tick(){
-  if(!state.run.playing || !state.run.active) return;
-  state.run.remaining = Math.max(0, state.run.remaining-1); state.run.elapsed++;
-  if(state.run.remaining===10 && state.settings.klaxon && !warningPlayed){ klaxonSound(); warningPlayed=true; }
-  if(state.run.remaining<=0){ playSectionEnd(); nextSection(true); return; }
-  renderTimer(); persist();
-}
-function sectionLabel(s){ if(!s) return 'Complete'; return s.grading ? (s.belt + ' Belt') : s.cat; }
-function sectionDisplayTitle(s){ if(!s) return 'Finished'; if(s.kind==='break') return s.detail || 'Break'; return s.grading ? (s.technique || 'Grading technique') : (s.detail || s.cat); }
-function renderTimer(){
-  const s=currentSection(); if(!s) return;
-  $('timerLessonName').textContent = state.lessonName || 'Kickboxing Class';
-  $('timerCatPill').innerHTML = `${sectionLabel(s)} • ${state.run.index+1} / ${state.sections.length}`;
-  $('timerSectionTitle').textContent = sectionDisplayTitle(s);
-  $('timerClock').textContent = fmt(state.run.remaining);
-  $('timerSub').textContent = s.kind==='break' ? 'Recover / reset' : 'Stay sharp';
-  $('timerElapsed').textContent = fmt(state.run.elapsed);
-  $('timerRemain').textContent = fmt(state.run.remaining);
-  $('timerCoachName').textContent = s.kind==='break' ? 'No coach' : coachBy(s.coach).name;
-  $('timerCoachImg').src = s.kind==='break' ? coachBy(state.defaultCoach).full : coachBy(s.coach).full;
-  const total = Math.max(1, state.run.sectionTotal); const pct = state.run.remaining/total; const circ = 2*Math.PI*44; $('progressRing').style.strokeDasharray = circ; $('progressRing').style.strokeDashoffset = ((1-pct)*circ).toFixed(2);
-  $('pauseBtn').textContent = state.run.playing ? '⏸ Pause' : '▶ Resume';
-  const one = state.sections[state.run.index+1], two=state.sections[state.run.index+2];
-  $('nextOne').innerHTML = one ? `<div class="nextItem">${one.kind==='break' ? '' : '<img src="'+coachBy(one.coach).avatar+'" alt="'+coachBy(one.coach).name+'">'}<div><strong>${sectionDisplayTitle(one)}</strong><div class="muted" style="color:#cbd3dd">${sectionLabel(one)} • ${one.mins} min</div></div></div>` : '<div class="muted" style="color:#cbd3dd">No next section</div>';
-  $('nextTwo').innerHTML = two ? `<div class="nextItem">${two.kind==='break' ? '' : '<img src="'+coachBy(two.coach).avatar+'" alt="'+coachBy(two.coach).name+'">'}<div><strong>${sectionDisplayTitle(two)}</strong><div class="muted" style="color:#cbd3dd">${sectionLabel(two)} • ${two.mins} min</div></div></div>` : '<div class="muted" style="color:#cbd3dd">Lesson nearly complete</div>';
-}
-function nextSection(auto=false){
-  if(!state.run.active) return;
-  if(state.run.index >= state.sections.length-1){ endLesson(); return; }
-  state.run.index++; state.run.sectionTotal = state.sections[state.run.index].mins*60; state.run.remaining = state.run.sectionTotal; warningPlayed=false; renderTimer(); persist(); if(!auto) playSectionStart(); else playSectionStart();
-}
-function pauseResume(){ state.run.playing = !state.run.playing; if(state.run.playing) beginTick(); else stopTick(); renderTimer(); persist(); }
-function endLesson(){ if(!confirm('End the lesson?')) return; stopTick(); state.run = hydrateState({}).run; $('timerView').classList.remove('show'); $('plannerView').classList.remove('hidden'); renderAll(); persist(); }
-function openEditDuringRun(){ if(!state.run.active) return; if(state.settings.rememberEditChoice && state.run.editChoice){ return proceedEditMode(state.run.editChoice==='pause'); } openModal('editRunModal'); }
-function proceedEditMode(pause){ closeModal('editRunModal'); state.run.editing=true; state.run.pausedForEdit=pause; if(pause){ state.run.playing=false; stopTick(); } persist(); $('timerView').classList.remove('show'); $('plannerView').classList.remove('hidden'); renderAll(); }
-function resumeFromPlanner(){ if(!state.run.active) return; $('plannerView').classList.add('hidden'); $('timerView').classList.add('show'); state.run.editing=false; if(!state.run.pausedForEdit && state.run.playing) beginTick(); renderTimer(); persist(); }
-function cancelLiveEdit(){ if(!state.run.active) return; state.run.editing=false; if(state.run.pausedForEdit){ state.run.playing=true; beginTick(); } $('plannerView').classList.add('hidden'); $('timerView').classList.add('show'); renderAll(); renderTimer(); persist(); }
-function showPlannerFromTimer(){ if(!state.run.active) return; openEditDuringRun(); }
-
-// Events
-$('newLessonBtn').onclick=newLesson;
-$('savedLessonsBtn').onclick=openSaved;
-$('libraryBtn').onclick=openLibrary;
-$('timetableBtn').onclick=openTimetable;
-$('settingsBtn').onclick=()=>openModal('settingsModal');
-$('smartPlanBtn').onclick=()=>openModal('smartModal');
-$('smartTotal').onchange=()=> $('manualSmartWrap').style.display = $('smartTotal').value==='manual' ? 'block':'none';
-$('applySmartBtn').onclick=()=>{ const total = $('smartTotal').value==='manual' ? Math.max(10, +$('manualSmartInput').value||45) : +$('smartTotal').value; applySmartPlan(total); closeModal('smartModal'); };
-$('lessonName').oninput=e=>{ state.lessonName=e.target.value; persist(); renderHeaderSummary(); };
-$('lessonNotes').oninput=e=>{ state.notes=e.target.value; persist(); };
-$('overallCoach').onchange=e=>{ state.overallCoach=e.target.value; state.defaultCoach=e.target.value; renderAll(); persist(); };
-$('addSectionBtn').onclick=()=>insertSectionAfter(state.sections[state.sections.length-1]?.id,'work');
-$('addBreakBtn').onclick=()=>insertSectionAfter(state.sections[state.sections.length-1]?.id,'break');
-$('addIntervalBtn').onclick=()=>insertSectionAfter(state.sections[state.sections.length-1]?.id,'interval');
-$('clearBtn').onclick=()=>{ if(confirm('Clear the current lesson structure?')){ state.sections=[makeSection('work')]; renderAll(); persist(); } };
-$('load45Btn').onclick=()=>loadTemplate('junior');
-$('saveLessonBtn').onclick=saveCurrentLesson;
-$('reviewStartBtn').onclick=startLesson;
-$('closeChipsBtn').onclick=closeQuickChips;
-$('chipsRow').addEventListener('click',e=>{ const btn=e.target.closest('.chip'); if(btn) insertChip(btn.textContent.trim()); });
-$('themeToggleBtn').onclick=()=>{ setTheme(state.theme==='dark'?'light':'dark'); renderHeaderSummary(); };
-$('autoBreakSwitch').onchange=e=>{ state.settings.autoBreak=e.target.checked; persist(); };
-$('allSoundsSwitch').onchange=e=>{ state.settings.allSounds=e.target.checked; syncSettings(); persist(); };
-$('startSoundSwitch').onchange=e=>{ state.settings.startSound=e.target.checked; persist(); };
-$('endSoundSwitch').onchange=e=>{ state.settings.endSound=e.target.checked; persist(); };
-$('klaxonSwitch').onchange=e=>{ state.settings.klaxon=e.target.checked; persist(); };
-$('timerSoundType').onchange=e=>{ state.settings.timerSound=e.target.value; persist(); };
-$('rememberEditSwitch').onchange=e=>{ state.settings.rememberEditChoice=e.target.checked; persist(); };
-$('saveBeltBtn').onclick=()=>{ const belt = state.libraryBelt || 'White'; state.gradingLibrary[belt] = $('beltTechniques').value.split(/\n+/).map(x=>x.trim()).filter(Boolean); persist(); renderLibrary(); renderSections(); };
-$('libraryModal').addEventListener('click',e=>{ const tab=e.target.closest('.tabBtn[data-tab]'); if(tab){ document.querySelectorAll('#libraryModal .tabBtn[data-tab]').forEach(x=>x.classList.remove('active')); tab.classList.add('active'); ['gradingTab','templatesTab'].forEach(id=>$(id).classList.add('hidden')); $(tab.dataset.tab).classList.remove('hidden'); } if(e.target.dataset.close) closeModal(e.target.dataset.close); });
-['coachModal','settingsModal','savedModal','timetableModal','smartModal','editRunModal'].forEach(id=>$(id).addEventListener('click',e=>{ if(e.target===e.currentTarget) closeModal(id); if(e.target.dataset.close) closeModal(e.target.dataset.close); }));
-document.querySelectorAll('[data-template]').forEach(b=>b.onclick=()=>loadTemplate(b.dataset.template));
-$('pauseBtn').onclick=pauseResume; $('minusBtn').onclick=()=>{ state.run.remaining=Math.max(0,state.run.remaining-30); renderTimer(); persist(); }; $('plusBtn').onclick=()=>{ state.run.remaining+=30; state.run.sectionTotal=Math.max(state.run.sectionTotal,state.run.remaining); renderTimer(); persist(); }; $('resetBtn').onclick=()=>{ state.run.remaining=state.run.sectionTotal; warningPlayed=false; renderTimer(); persist(); }; $('nextBtn').onclick=()=>nextSection(false); $('endBtn').onclick=endLesson; $('timerEditBtn').onclick=showPlannerFromTimer; $('timerExitBtn').onclick=showPlannerFromTimer; $('timerSoundBtn').onclick=()=>{ state.settings.allSounds=!state.settings.allSounds; syncSettings(); persist(); };
-$('pauseForEditBtn').onclick=()=>{ state.run.editChoice='pause'; if(state.settings.rememberEditChoice) persist(); proceedEditMode(true); };
-$('keepRunningEditBtn').onclick=()=>{ state.run.editChoice='run'; if(state.settings.rememberEditChoice) persist(); proceedEditMode(false); };
-$('resumeLessonBtn').onclick=resumeFromPlanner; $('cancelLiveEditBtn').onclick=cancelLiveEdit;
-$('timerStage').addEventListener('click',e=>{ if(e.target.closest('.iconBtn')) return; $('timerStage').classList.toggle('hideChrome'); });
-
-// render chip toggles and generic modal close buttons after DOM ready
-renderAll();
-renderChipSettings();
-// open audio once on any first interaction
-window.addEventListener('pointerdown', ()=>{ try{ensureAudio();}catch(e){} }, {once:true});
-if('serviceWorker' in navigator) window.addEventListener('load', ()=>navigator.serviceWorker.register('sw.js').catch(()=>{}));
+function esc(s){return String(s??'').replace(/[&<>"]/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[m]))}
+function wireSection(card){let s=state.sections.find(x=>x.id===card.dataset.id);if(!s)return;card.querySelector('.grading')?.addEventListener('change',e=>{s.grading=e.target.checked;if(s.grading){s.belt=s.belt||'White';if(!s.detail)s.detail=(state.syllabus[s.belt]||[])[0]||''}render()});card.querySelector('.cat')?.addEventListener('change',e=>{s.cat=e.target.value;s.detail=CATS[s.cat]?.[0]||'';render()});card.querySelector('.belt')?.addEventListener('change',e=>{s.belt=e.target.value;s.detail=(state.syllabus[s.belt]||[])[0]||s.detail;render()});card.querySelector('.detail')?.addEventListener('input',e=>{s.detail=e.target.value;save()});card.querySelector('.quickInput')?.addEventListener('focus',e=>openQuick(s.id,e.target));card.querySelector('.pickCoach')?.addEventListener('click',()=>openCoach(s.id));card.querySelector('.time').addEventListener('change',e=>{if(s.rounds?.enabled){let total=+e.target.value, count=Math.max(1,+s.rounds.count||1), rest=Math.max(0,+s.rounds.restSec||0);s.rounds.workSec=Math.max(10,Math.floor((total-Math.max(0,count-1)*rest-(s.rounds.finalRest?rest:0))/count))}else s.durationSec=+e.target.value;render()});card.querySelector('.roundsBtn').onclick=()=>{s.roundsOpen=!s.roundsOpen;render()};card.querySelector('.roundEnabled').onchange=e=>{s.rounds.enabled=e.target.checked;render()};card.querySelector('.roundCountInp').onchange=e=>{s.rounds.count=Math.max(1,+e.target.value||1);render()};card.querySelector('.workSec').onchange=e=>{s.rounds.workSec=Math.max(10,+e.target.value||120);render()};card.querySelector('.restSec').onchange=e=>{s.rounds.restSec=Math.max(0,+e.target.value||0);render()};card.querySelector('.finalRest').onchange=e=>{s.rounds.finalRest=e.target.value==='1';render()};card.querySelector('.addAfter').onclick=()=>addAfter(s.id,'work');card.querySelector('.breakAfter').onclick=()=>addAfter(s.id,'break');card.querySelector('.up').onclick=()=>move(s.id,-1);card.querySelector('.down').onclick=()=>move(s.id,1);card.querySelector('.del').onclick=()=>remove(s.id)}
+function addAfter(id,kind){let idx=state.sections.findIndex(x=>x.id===id);let n=kind==='break'?newBreak():kind==='interval'?newInterval():newWork();n.coach=state.overallCoach;state.sections.splice(idx+1,0,n);render()}
+function append(kind){let last=state.sections.at(-1);if(kind==='work'&&state.settings.autoBreak&&last&&last.kind!=='break')state.sections.push(newBreak());let n=kind==='break'?newBreak():kind==='interval'?newInterval():newWork();n.coach=state.overallCoach;state.sections.push(n);render()}
+function move(id,d){let i=state.sections.findIndex(x=>x.id===id),j=i+d;if(i<0||j<0||j>=state.sections.length)return;[state.sections[i],state.sections[j]]=[state.sections[j],state.sections[i]];render()}
+function remove(id){state.sections=state.sections.filter(x=>x.id!==id);if(!state.sections.length)state.sections=[newWork()];render()}
+function renderCoachGrid(){$('coachGrid').innerHTML=COACHES.map(c=>`<button class="coachCard" data-id="${c.id}"><img src="${c.portrait}"><strong>${c.name}</strong></button>`).join('');$('coachGrid').querySelectorAll('button').forEach(b=>b.onclick=()=>{state.overallCoach=b.dataset.id;render()})}
+function openCoach(sectionId){state.pickFor=sectionId;$('coachPicker').innerHTML=COACHES.map(c=>`<button class="coachPick" data-id="${c.id}"><img src="${c.portrait}"><strong>${c.name}</strong></button>`).join('');$('coachPicker').querySelectorAll('button').forEach(b=>b.onclick=()=>{let s=state.sections.find(x=>x.id===state.pickFor);if(s)s.coach=b.dataset.id;close('coachModal');render()});open('coachModal')}
+function open(id){$(id).classList.add('show')}function close(id){$(id).classList.remove('show')}
+function saveLesson(){let item={id:uid(),name:state.lessonName||'Kickboxing Class',notes:state.notes,overallCoach:state.overallCoach,sections:JSON.parse(JSON.stringify(state.sections)),savedAt:Date.now()};state.saved.unshift(item);state.saved=state.saved.slice(0,30);save();renderSaved();open('savedModal')}
+function renderSaved(){let e=$('savedList');e.innerHTML=state.saved.length?state.saved.map((x,i)=>`<div class="savedItem"><div><strong>${esc(x.name)}</strong><small>${fmt(x.sections.reduce((a,s)=>a+sectionSec(s),0))} • ${x.sections.length} sections</small></div><div class="actions"><button class="btn small loadSave" data-i="${i}">Load</button><button class="btn small red delSave" data-i="${i}">Delete</button></div></div>`).join(''):'<div class="tip">No saved lessons yet.</div>';e.querySelectorAll('.loadSave').forEach(b=>b.onclick=()=>{let x=state.saved[+b.dataset.i];state.lessonName=x.name;state.notes=x.notes||'';state.overallCoach=x.overallCoach||'joe';state.sections=x.sections.map(s=>Object.assign(newWork(),JSON.parse(JSON.stringify(s)),{id:uid()}));close('savedModal');render()});e.querySelectorAll('.delSave').forEach(b=>b.onclick=()=>{state.saved.splice(+b.dataset.i,1);save();renderSaved()})}
+function renderLibrary(){let belt=state.selectedBelt||'White';$('beltList').innerHTML=BELTS.map(b=>`<button class="beltBtn ${b[0]===belt?'active':''}" data-belt="${b[0]}"><span class="beltIcon" style="background:${b[1]}"></span>${b[0]}</button>`).join('');$('beltList').querySelectorAll('button').forEach(b=>b.onclick=()=>{commitLibrary();state.selectedBelt=b.dataset.belt;renderLibrary()});$('beltText').value=(state.syllabus[belt]||[]).join('\n');$('quickText').value=state.quick.join('\n')}
+function commitLibrary(){let b=state.selectedBelt||'White';state.syllabus[b]=$('beltText').value.split(/\n+/).map(x=>x.trim()).filter(Boolean);state.quick=$('quickText').value.split(/\n+/).map(x=>x.trim()).filter(Boolean);state.settings.visibleQuick=state.settings.visibleQuick.filter(x=>state.quick.includes(x));if(!state.settings.visibleQuick.length)state.settings.visibleQuick=state.quick.slice(0,14);save();render()}
+function renderTimetable(){$('timetable').innerHTML=TIMETABLE.map(d=>`<div class="day"><h4>${d.day}</h4>${d.sessions.map(s=>`<div class="classItem"><strong>${s[0]}</strong><span>${s[1]}</span><button class="btn small useSlot" data-name="${s[0]}" data-mins="${s[2]}">Plan this class</button></div>`).join('')}</div>`).join('');$('timetable').querySelectorAll('.useSlot').forEach(b=>b.onclick=()=>{state.lessonName=b.dataset.name;state.target=+b.dataset.mins;state.sections=[newWork('Warm Up'),newBreak(),newWork('Technique'),newWork('Pad Work'),newBreak(),newWork('Cool Down')];fitTo(+b.dataset.mins);close('timetableModal');render()})}
+function syncSettings(){$('darkToggle').checked=state.settings.dark;$('autoBreakToggle').checked=state.settings.autoBreak;$('pauseBlurToggle').checked=state.settings.pauseOnBlur;$('soundToggle').checked=state.settings.sound;$('sectionSoundToggle').checked=state.settings.sectionSound;$('klaxonToggle').checked=state.settings.klaxon;$('soundType').value=state.settings.soundType;$('quickSettings').innerHTML=state.quick.map(q=>`<button class="chip ${state.settings.visibleQuick.includes(q)?'manage':''}" data-q="${esc(q)}">${esc(q)}</button>`).join('');$('quickSettings').querySelectorAll('button').forEach(b=>b.onclick=()=>{let q=b.dataset.q;if(state.settings.visibleQuick.includes(q))state.settings.visibleQuick=state.settings.visibleQuick.filter(x=>x!==q);else if(state.settings.visibleQuick.length<14)state.settings.visibleQuick.push(q);syncSettings();save()})}
+function fitTo(mins){let target=mins*60,breaks=state.sections.filter(s=>s.kind==='break'),work=state.sections.filter(s=>s.kind!=='break'),fixed=breaks.reduce((a,s)=>a+sectionSec(s),0),avail=Math.max(work.length*60,target-fixed),weights=work.map(s=>({s,w:{'Warm Up':.8,'Technique':1.2,'Pad Work':1.35,'Partner Work':1.1,'Sparring':1.25,'Fitness':1.05,'Cool Down':.65,'Interval':1}[s.cat]||1})),sum=weights.reduce((a,x)=>a+x.w,0);weights.forEach(x=>{if(x.s.rounds?.enabled)return;x.s.durationSec=Math.max(60,Math.round(avail*(x.w/sum)/30)*30)});let diff=target-totalSec(),flex=work.filter(s=>!s.rounds?.enabled);let guard=0;while(Math.abs(diff)>=30&&flex.length&&guard++<500){let s=flex[guard%flex.length];let delta=diff>0?30:-30;if(sectionSec(s)+delta>=60){s.durationSec+=delta;diff-=delta}}render()}
+/* Keyboard-safe Quick Type */
+let quickInput=null,quickSection=null;function openQuick(id,input){quickInput=input;quickSection=id;renderQuick();$('quickTray').classList.add('show');positionQuick();setTimeout(positionQuick,80)}function renderQuick(){$('quickChips').innerHTML=state.settings.visibleQuick.map(q=>`<button class="chip" data-q="${esc(q)}">${esc(q)}</button>`).join('');$('quickChips').querySelectorAll('button').forEach(b=>b.onclick=()=>insertQuick(b.dataset.q))}function insertQuick(q){if(!quickInput)return;let val=quickInput.value.trim(),sep=val?' / ':'';quickInput.value=val+sep+q;quickInput.dispatchEvent(new Event('input',{bubbles:true}));quickInput.focus();positionQuick()}function positionQuick(){let tray=$('quickTray'),vv=window.visualViewport;if(!tray.classList.contains('show'))return;if(vv){let h=tray.offsetHeight||120;let top=Math.max(6,vv.offsetTop+vv.height-h-8);tray.style.top=top+'px';tray.style.bottom='auto'}else{tray.style.top='auto';tray.style.bottom='calc(var(--safe-bottom) + 8px)'}}if(window.visualViewport){visualViewport.addEventListener('resize',positionQuick);visualViewport.addEventListener('scroll',positionQuick)}
+/* Audio */
+const sounds={bell:new Audio('bell.wav'),bleep:new Audio('bleep.wav'),klaxon:new Audio('klaxon.wav')};Object.values(sounds).forEach(a=>{a.preload='auto';a.volume=.82});function play(name){if(!state.settings.sound)return;try{let a=sounds[name];a.pause();a.currentTime=0;a.play().catch(()=>{})}catch(e){}}function ring(){play(state.settings.soundType==='bleep'?'bleep':'bell')}
+/* Timer model: flatten sections into phases including rounds/rest */
+function phasesFromSections(){let out=[];state.sections.forEach((s,si)=>{if(s.kind==='break'){out.push({id:s.id+'-single',sectionId:s.id,sectionIndex:si,type:'break',label:'Break',detail:s.detail,coach:null,sec:sectionSec(s),round:null});return}if(s.rounds?.enabled){let count=Math.max(1,+s.rounds.count||1);for(let r=1;r<=count;r++){out.push({id:`${s.id}-w${r}`,sectionId:s.id,sectionIndex:si,type:'work',label:s.grading?`${s.belt} Belt`:s.cat,detail:s.detail,coach:s.coach,sec:+s.rounds.workSec||120,round:`Round ${r} / ${count} • Work`});if(r<count||s.rounds.finalRest)out.push({id:`${s.id}-r${r}`,sectionId:s.id,sectionIndex:si,type:'rest',label:'Changeover / Rest',detail:r<count?'Change pads / recover':'Final programmed rest',coach:null,sec:+s.rounds.restSec||30,round:`Round ${r} / ${count} • Rest`})}}else out.push({id:s.id+'-single',sectionId:s.id,sectionIndex:si,type:'work',label:s.grading?`${s.belt} Belt`:s.cat,detail:s.detail,coach:s.coach,sec:sectionSec(s),round:null})});return out}
+function startLesson(){let ph=phasesFromSections();if(!ph.length)return;state.run={active:true,editing:false,playing:true,index:0,remaining:ph[0].sec,phaseTotal:ph[0].sec,elapsed:0,phases:ph,lastCoach:null};close('reviewModal');$('plannerApp').classList.add('hidden');$('timerView').classList.add('show');beginRun();setPhaseVisual(true);if(state.settings.sectionSound)ring();save()}
+let tick=null,wake=null;function beginRun(){clearInterval(tick);tick=setInterval(()=>{if(!state.run?.active||!state.run.playing)return;state.run.remaining--;state.run.elapsed++;if(state.run.remaining===10&&state.settings.klaxon)play('klaxon');if(state.run.remaining<=0){if(state.settings.sectionSound)ring();advance(1,true);return}renderRun();save()},1000);try{navigator.wakeLock?.request('screen').then(x=>wake=x).catch(()=>{})}catch(e){}}
+function currentPhase(){return state.run?.phases?.[state.run.index]}
+function setPhaseVisual(force=false){let p=currentPhase();if(!p)return;let runner=$('runner'),img=$('runnerImg');runner.classList.remove('in');if(p.coach){img.src=coach(p.coach).full;setTimeout(()=>runner.classList.add('in'),40)}else{img.src=coach(state.overallCoach).full;setTimeout(()=>runner.classList.add('in'),40)}$('timerStage').classList.toggle('breakMode',p.type!=='work');renderRun()}
+function renderRun(){let p=currentPhase();if(!p)return;$('runLessonName').textContent=state.lessonName;$('runMode').textContent=`${p.label} • ${state.run.index+1} / ${state.run.phases.length}`;$('runTitle').textContent=p.detail||p.label;$('runDetail').textContent=p.round||p.label;$('clock').textContent=fmt(state.run.remaining);$('runRound').textContent=p.round||'';$('runElapsed').textContent=fmt(state.run.elapsed);$('runRemain').textContent=fmt(state.run.remaining);$('runCoach').textContent=p.coach?coach(p.coach).name:'—';$('pauseRun').textContent=state.run.playing?'Pause':'Resume';$('runSound').textContent=state.settings.sound?'🔊 Sound':'🔇 Sound';let done=state.run.phases.slice(0,state.run.index).reduce((a,x)=>a+x.sec,0)+(state.run.phaseTotal-state.run.remaining),all=state.run.phases.reduce((a,x)=>a+x.sec,0);$('runProgress').style.width=(all?done/all*100:0)+'%';renderNext('nextCard',state.run.index+1);renderNext('thenCard',state.run.index+2)}
+function renderNext(id,i){let p=state.run.phases[i],e=$(id);if(!p){e.innerHTML='<span style="color:#aeb7c3">Lesson complete</span>';return}let c=p.coach?coach(p.coach):null;e.innerHTML=`<div class="nextLine">${c?`<img src="${c.portrait}">`:''}<div><strong>${esc(p.detail||p.label)}</strong><span>${esc(p.round||p.label)} • ${fmt(p.sec)}</span></div></div>`}
+function advance(dir,auto=false){if(!state.run?.active)return;let ni=state.run.index+dir;if(ni<0)return;if(ni>=state.run.phases.length){finishRun(true);return}state.run.index=ni;let p=currentPhase();state.run.remaining=p.sec;state.run.phaseTotal=p.sec;setPhaseVisual(true);if(!auto&&state.settings.sectionSound)ring();save()}
+function finishRun(confirmFirst){if(confirmFirst&&!confirm('End the current lesson?'))return;clearInterval(tick);try{wake?.release?.()}catch(e){}wake=null;state.run=null;$('timerView').classList.remove('show');$('plannerApp').classList.remove('hidden');$('liveBar').classList.remove('show');render()}
+function editRun(pause){close('editModal');state.run.editing=true;if(pause){state.run.playing=false;clearInterval(tick)}$('timerView').classList.remove('show');$('plannerApp').classList.remove('hidden');render()}
+function resumeRun(){if(!state.run?.active)return;state.run.editing=false;$('plannerApp').classList.add('hidden');$('timerView').classList.add('show');state.run.phases=phasesFromSections();let p=currentPhase();if(!p){state.run.index=Math.max(0,state.run.phases.length-1);p=currentPhase()}state.run.remaining=Math.min(state.run.remaining,p?.sec||state.run.remaining);state.run.phaseTotal=p?.sec||state.run.phaseTotal;if(state.run.playing)beginRun();setPhaseVisual(true);renderRun();save()}
+function review(){let rows=state.sections.map((s,i)=>`<div class="tip"><strong>${i+1}. ${s.grading?`${s.belt} Belt`:s.cat} — ${esc(s.detail)}</strong>${s.coach?coach(s.coach).name:'No coach'} • ${fmt(sectionSec(s))}${s.rounds?.enabled?` • ${s.rounds.count} rounds`:''}</div>`).join('');$('reviewTitle').textContent=state.lessonName||'Session Brief';$('reviewBody').innerHTML=`<p style="color:var(--muted)">${esc(state.notes||'No lesson notes.')}</p>${rows}<div class="tip"><strong>Total</strong>${fmt(totalSec())}</div>`;open('reviewModal')}
+/* events */
+$('lessonName').oninput=e=>{state.lessonName=e.target.value;save()};$('lessonNotes').oninput=e=>{state.notes=e.target.value;save()};$('overallCoach').onchange=e=>{state.overallCoach=e.target.value;state.sections.forEach(s=>{if(s.kind!=='break'&&!s.coach)s.coach=state.overallCoach});render()};$('targetTime').onchange=e=>{state.target=e.target.value==='manual'?'manual':+e.target.value;save()};$('addSectionBtn').onclick=()=>append('work');$('addBreakBtn').onclick=()=>append('break');$('addIntervalBtn').onclick=()=>append('interval');$('reviewBtn').onclick=review;$('startBtn').onclick=startLesson;$('smartBtn').onclick=()=>{let m=state.target==='manual'?+prompt('Target total minutes',60):+state.target||60;if(m)fitTo(m)};$('savedBtn').onclick=()=>{renderSaved();open('savedModal')};$('saveTopBtn').onclick=saveLesson;$('libraryBtn').onclick=()=>{renderLibrary();open('libraryModal')};$('timetableBtn').onclick=()=>{renderTimetable();open('timetableModal')};$('settingsBtn').onclick=()=>{syncSettings();open('settingsModal')};$('newBtn').onclick=()=>{if(confirm('Start a new lesson?')){state.lessonName='Kickboxing Class';state.notes='';state.sections=[newWork()];render()}};$('saveLibraryTop').onclick=$('saveLibraryBottom').onclick=()=>{commitLibrary();renderLibrary()};$('manageQuick').onclick=()=>{closeQuick();syncSettings();open('settingsModal')};$('closeQuick').onclick=closeQuick;function closeQuick(){$('quickTray').classList.remove('show');quickInput=null;quickSection=null}
+document.querySelectorAll('[data-close]').forEach(b=>b.onclick=()=>close(b.dataset.close));document.querySelectorAll('.modal').forEach(m=>m.addEventListener('click',e=>{if(e.target===m)close(m.id)}));document.querySelectorAll('[data-lib]').forEach(b=>b.onclick=()=>{document.querySelectorAll('[data-lib]').forEach(x=>x.classList.remove('active'));b.classList.add('active');$('gradingPane').classList.toggle('hidden',b.dataset.lib!=='grading');$('quickPane').classList.toggle('hidden',b.dataset.lib!=='quick')});
+$('darkToggle').onchange=e=>{state.settings.dark=e.target.checked;render()};$('autoBreakToggle').onchange=e=>{state.settings.autoBreak=e.target.checked;save()};$('pauseBlurToggle').onchange=e=>{state.settings.pauseOnBlur=e.target.checked;save()};$('soundToggle').onchange=e=>{state.settings.sound=e.target.checked;save()};$('sectionSoundToggle').onchange=e=>{state.settings.sectionSound=e.target.checked;save()};$('klaxonToggle').onchange=e=>{state.settings.klaxon=e.target.checked;save()};$('soundType').onchange=e=>{state.settings.soundType=e.target.value;save()};$('tutorialBtn').onclick=()=>open('tutorialModal');
+$('pauseRun').onclick=()=>{if(!state.run)return;state.run.playing=!state.run.playing;if(state.run.playing)beginRun();else clearInterval(tick);renderRun();save()};$('prevRun').onclick=()=>advance(-1);$('nextRun').onclick=()=>advance(1);$('minus30').onclick=()=>{state.run.remaining=Math.max(0,state.run.remaining-30);renderRun()};$('plus30').onclick=()=>{state.run.remaining+=30;state.run.phaseTotal=Math.max(state.run.phaseTotal,state.run.remaining);renderRun()};$('restartRun').onclick=()=>{let p=currentPhase();state.run.remaining=p.sec;state.run.phaseTotal=p.sec;renderRun()};$('endRun').onclick=()=>finishRun(true);$('runSound').onclick=()=>{state.settings.sound=!state.settings.sound;renderRun();save()};$('runEdit').onclick=()=>open('editModal');$('editPause').onclick=()=>editRun(true);$('editKeep').onclick=()=>editRun(false);$('resumeLiveBtn').onclick=resumeRun;$('cancelLiveBtn').onclick=resumeRun;$('timerStage').addEventListener('click',e=>{if(e.target.closest('button'))return;$('timerStage').classList.toggle('clean')});
+window.addEventListener('blur',()=>{if(state.settings.pauseOnBlur&&state.run?.active&&state.run.playing){state.run.playing=false;clearInterval(tick);renderRun();save()}});
+render();renderLibrary();renderSaved();renderTimetable();
+if('serviceWorker' in navigator)window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}));
 </script>
 </body>
 </html>
